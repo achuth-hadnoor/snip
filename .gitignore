@@ -1,0 +1,18 @@
+# build output
+dist
+renderer/.next
+renderer/out
+
+# dependencies
+node_modules
+
+# logs
+npm-debug.log
+package-lock.json
+
+# Certificates
+Certificates.p12
+
+## .files
+.env
+.env.production
