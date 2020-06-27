@@ -35,7 +35,7 @@ class Home extends React.Component {
         user.onboard = true;
         updateUser(user);
     }
-    goHome = () => {
+    goHome() {
         Router.push({ path: 'home', query: { tab: 'Today' } });
     }
     render() {

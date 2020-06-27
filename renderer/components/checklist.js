@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styled from 'styled-components'
 import Icon from "react-icons-kit";
 import { x } from "react-icons-kit/feather";
@@ -15,9 +14,11 @@ class CheckList extends React.Component {
             listValue: '',
         }
     }
+
     componentDidMount() {
         this.setState({ lists: this.props.lists })
     }
+    
     addList = async (e) => {
         e.preventDefault();
         if(this.state.value){
@@ -29,10 +30,12 @@ class CheckList extends React.Component {
         }
         alert("Enter list item ");
     }
+
     onChange = (e) => {
         const { name, value } = e.target;
         this.setState({ [name]: value })
     }
+
     onCheck = (id) => {
         let { lists } = this.state;
         let newLists = lists.map((l, i) => {
@@ -46,6 +49,7 @@ class CheckList extends React.Component {
         });
         return this.setState({ lists: newLists }); 
     }
+
     onRemove = (id) => { 
         let { lists } = this.state;
         let newLists = lists.filter((l, i) => {
@@ -56,6 +60,7 @@ class CheckList extends React.Component {
         this.setState({ lists: newLists }); 
         return this.props.onComplete(newLists);
     }
+
     render() {
         return (
             <ListWrapper>

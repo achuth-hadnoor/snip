@@ -1,5 +1,7 @@
-import Router from 'next/router'
+import Link from 'next/link'
 
 export default()=>(
-    <div onClick={()=>{Router.push('/')}}>Go back</div>
+   <Link href="/">
+       <span>go back please</span>
+   </Link>
 )

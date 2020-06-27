@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Icon from "react-icons-kit"
-import { check } from "react-icons-kit/feather"
+import { check, chevronDown } from "react-icons-kit/feather"
 import styled from 'styled-components'
-import { chevronDown } from 'react-icons-kit/feather';
+
 
 export default ({ projects, selProject, onClick }) => {
-    let [expand, setExpand] = useState(false);
+    const [expand, setExpand] = useState(false);
     let content;
     switch (expand) {
         case true:
@@ -14,7 +14,13 @@ export default ({ projects, selProject, onClick }) => {
                     projects ? projects.map(
                         (p, i) => {
                             return (
-                                <li key={`p` + i + p.id} hex={p.hex} onClick={() => { setExpand(!expand); onClick(p.id) }}>
+                                <li
+                                    key={`p` + i + p.id}
+                                    hex={p.hex}
+                                    onClick={() => {
+                                        setExpand(!expand);
+                                        onClick(p.id)
+                                    }}>
                                     <Dot hex={p.hex} />
                                     <Project> {p.title} </Project>
                                     {p.id === selProject ? <Icon icon={check} /> : null}
@@ -32,37 +38,31 @@ export default ({ projects, selProject, onClick }) => {
             </ProjectWrapperOpen>
             break;
         case false:
-        const _project = projects ? projects.filter((p, i) => {
-                if (p.id === selProject) {
-                    return (
-                        <ProjectWrapper
-                            key={i}
-                            hex={p.hex} onClick={() => setExpand(!expand)}>
-                            <Dot hex={p.hex} />
-                            <Project >{p.title}</Project>
-                            <Icon icon={chevronDown} />
-                        </ProjectWrapper>)
-                }
-            }): [];            
-            content = _project.length !== 0 ? _project.map((p, i) => {
-                if (p.id === selProject) {
-                    return (
-                        <ProjectWrapper
-                            key={i}
-                            hex={p.hex} onClick={() => setExpand(!expand)}>
-                            <Dot hex={p.hex} />
-                            <Project >{p.title}</Project>
-                            <Icon icon={chevronDown} />
-                        </ProjectWrapper>)
-                }
-            }) : <ProjectWrapper 
-                            hex="#6275ff" onClick={() => setExpand(!expand)}>
-                            <Dot hex="#6275ff" />
-                            <Project >Untitled</Project>
-                            <Icon icon={chevronDown} />
-                        </ProjectWrapper>
+            const _project = projects ? projects.filter((p, i) => p.id === selProject && (
+                <ProjectWrapper
+                    key={i}
+                    hex={p.hex} onClick={() => setExpand(!expand)}>
+                    <Dot hex={p.hex} />
+                    <Project >{p.title}</Project>
+                    <Icon icon={chevronDown} />
+                </ProjectWrapper>
+            )) : [];
+            content = _project.length === 0 ? <ProjectWrapper
+                hex="#6275ff" onClick={() => setExpand(!expand)}>
+                <Dot hex="#6275ff" />
+                <Project >Untitled</Project>
+                <Icon icon={chevronDown} />
+            </ProjectWrapper> : _project.map((p, i) => p.id === selProject && (
+                <ProjectWrapper
+                    key={i}
+                    hex={p.hex} onClick={() => setExpand(!expand)}>
+                    <Dot hex={p.hex} />
+                    <Project >{p.title}</Project>
+                    <Icon icon={chevronDown} />
+                </ProjectWrapper>))
             break;
     }
+    
     return (
         <Wrapper>
             <Title>Project</Title>

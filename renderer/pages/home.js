@@ -24,7 +24,7 @@ class Home extends React.Component {
             search: '',
             user: {},
             projects: [],
-            mode: false,
+            theme: false,
             active: false,
             activeTab: 'Projects',
             colors: colors,
@@ -35,28 +35,7 @@ class Home extends React.Component {
     componentDidMount() {
         const { user } = getUser();
         const tabSelected = Router.router.query.tab;
-        this.setState({ user: user, projects: user.projects, activeTab: tabSelected });
-        // if (Router.pathname === '/') {
-        const theme = localStorage.getItem('theme');
-        if (theme === null) {
-            const desktopMode = window.matchMedia('(prefers-color-scheme : dark )').matches;//localStorage.getItem('theme'); 
-            if (desktopMode) {
-                this.setState({ mode: true });
-                localStorage.setItem('theme', 'dark');
-            } else {
-                this.setState({ mode: false })
-                localStorage.setItem('theme', 'light');
-            }
-        }
-        else {
-            if (theme === 'light') {
-                this.setState({ mode: true });
-            }
-            else {
-                this.setState({ mode: false });
-            }
-        }
-
+        this.setState({ user: user, projects: user.projects, activeTab: tabSelected }); 
     }
 
     componentWillReceiveProps(nextProps) {
@@ -66,7 +45,7 @@ class Home extends React.Component {
         }
     }
 
-    selectTab(tabSelected) {
+    selectTab = (tabSelected)=> {
         this.setState({ tabSelected })
     }
     addProject = async () => {
@@ -100,12 +79,7 @@ class Home extends React.Component {
         var project = this.state.project;
         project.title = e.target.value;
         this.setState({ project: project })
-    }
-    onChange = (e) => {
-        const { target } = e;
-        const { name, value } = target;
-        this.setState({ [name]: value })
-    }
+    } 
     onSearchChange = (e) => {
         const { target } = e;
         const { name, value } = target;
@@ -168,18 +142,17 @@ class Home extends React.Component {
         const { activeTab, user } = this.state;
         const tasks = user.notes;
         const tabList = [
-            { name: 'Today', href: "/home?tab=Today" },
-            { name: 'Done', href: "/home?tab=Done" },
+            { name: 'Snips', href: "/home?tab=Snips" }, 
             { name: 'Projects', href: "/home?tab=Projects" }
         ]
         switch (activeTab) {
-            case 'Today':
+            case 'Snips':
 
-                const Todaytasks = tasks ? tasks.filter(({ type, completed }) => type === 'today' && completed !== true) : [];
-                content = Todaytasks.length === 0 ?
+                const Snipstasks = tasks ? tasks.filter(({ type, completed }) => type === 'Snips' && completed !== true) : [];
+                content = Snipstasks.length === 0 ?
                     <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>Yass!! All Caught up .🙌</div>
                     :
-                    <SortableComponent title="Today" notes={Todaytasks} onMove={this.onMove} onSortEnd={this.onSortEnd} onDone={(i) => {
+                    <SortableComponent title="Snips" notes={Snipstasks} onMove={this.onMove} onSortEnd={this.onSortEnd} onDone={(i) => {
                         getNote(i).then(({ id, title, note, project, checklist, completed }) => {
                             if (id === i) {
                                 completed = true;
@@ -239,7 +212,8 @@ class Home extends React.Component {
         }
         return (
             <>
-                <Nav mode={this.state.mode} />
+                <Nav mode={user.theme === 'dark'} />
+                <Navigation list={tabList} tabSelected={this.state.activeTab} />
                 <TaskWrapper>
                     {this.state.activeTab !== 'Projects' ?
                         <Input
@@ -264,9 +238,9 @@ class Home extends React.Component {
                         }} />
                     }
                 </TaskWrapper>
-                <Navigation list={tabList} tabSelected={this.state.activeTab} />
+                
                 {
-                    this.state.activeTab === 'Today' ?
+                    this.state.activeTab === 'Snips' ?
                         <Link href="/new">
                             <button
                                 style={{
@@ -289,8 +263,7 @@ const TaskWrapper = styled.div`
     display:flex;
     flex-direction :column;
     flex:1; 
-    font-size:14px;
-    padding-bottom:100px;
+    font-size:14px; 
     max-width:400px;
 `
 const Footer = styled.footer`
@@ -337,18 +310,18 @@ const ColorPick = ({ colors, onPick, project }) => {
 const Plist = styled.ul`
     list-style:none;
     display:flex;
-    padding:10px;
-    max-width:500px;
+    padding:5px 0px;
+    max-width:400px;
     width:100%;
     flex-wrap:wrap;  
     flex:1;
     li{
         display:flex;
-        flex:1;
-        margin:10px;
-        padding:0px;
+        flex:1; 
+        margin:5px;
         user-select:none;
         border-radius:5px;
+        align-items : center;
         background:${props => props.theme.background.secondary};
         i{
             padding:5px;
@@ -371,13 +344,12 @@ const Continuee = styled.button`
 const Title = styled.div`
     color:${props => props.theme.color.ternary};
     font-size: 14px;
-    padding:10px;
+    padding:5px 10px;
     flex:1;
 `;
 const ColorWrap = styled.div`
     display:flex;
-    flex-direction:column; 
-    padding:10px;   
+    flex-direction:column;    
 `;
 const Clist = styled.div`
     display:flex;

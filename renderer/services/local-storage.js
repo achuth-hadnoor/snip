@@ -17,7 +17,7 @@ export const getUser = () => {
                 isSelected: true
             }],
             onboard: false,
-            mode: 'dark',
+            theme: 'dark',
             createdAt: Date.now(),
             updatedAt: Date.now()
         }
@@ -58,26 +58,16 @@ export const setNote = ({ title, project, note, checklist, tab = 'Today' }) => {
     })
 }
 
-export const getNote = (id) => {
+export const getNote = (_id) => {
     return new Promise((resolve, reject) => {
         const { user } = getUser();
-        const notes = user.notes;
-        const _note = notes.filter(function(n) {
-            if (n.id === id) {
-            
-                return n;
-            }
-        });
-        if (_note) {
-
-            return resolve(_note[0]);
-        }
-
-        return reject()
+        const {notes} = user;
+        const _note = notes.filter(({id})=>id === _id);
+         return _note ?  resolve(_note[0]) : reject() 
     })
 }
 
-export const updateNote = ({ id, title, note, project, checklist, completed }) => new Promise((resolve, reject) => {
+export const updateNote = ({ id, title, note, project, checklist, completed }) => new Promise((resolve) => {
     const { user } = getUser();
     const { notes } = user;
     const newNotes = notes.map((n) => {
@@ -91,6 +81,7 @@ export const updateNote = ({ id, title, note, project, checklist, completed }) =
             n.updatedAt = Date.now();
             return n;
         }
+
         return n
     });
     user.notes = newNotes;
@@ -98,16 +89,13 @@ export const updateNote = ({ id, title, note, project, checklist, completed }) =
     return resolve(user);
 });
 
-export const removeNote = (id)=>{
-    return new Promise((resolve,reject)=>{
+export const removeNote = (_id)=>{
+    return new Promise((resolve)=>{
         const {user} = getUser();
-        const _notes = user.notes.filter((p)=>{
-            if(p.id !== id ){
-                return p;
-            }
-        });
+        const _notes = user.notes.filter(({id})=> id !== _id );
         user.notes = _notes;
         updateUser(user);
+        
         return resolve(user);
     })
 }
@@ -118,19 +106,22 @@ export const getProject = (Pid) => {
     if (_project.length === 0) {
         return _project = { id: 'untitled', title: 'untitled', hex: '#6275ff' }
     }
+    
     return _project[0];
 }
 
-export const setproject = ({ title, hex }) => {
-    return new Promise(async (resolve, reject) => { 
+export const setproject = ({ hex }) => {
+    return new Promise( (resolve, reject) => { 
         if (!hex) {
             return reject(TypeError('Select Project Color'))
         }
+        
         const { user } = getUser();
+        const  title  = title.toLowerCase()
         const _project = {
-            id: await uid(10),
-            title: title.toLowerCase(),
-            hex: hex
+            id: uid(10),
+            title,
+            hex 
         }
         const _projects = [...user.projects, _project];
         user.projects = _projects;
@@ -140,12 +131,13 @@ export const setproject = ({ title, hex }) => {
 }
 
 export const removeProject = (id, deleteTasks) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const { user } = getUser();
         if (deleteTasks) {
-            let _notes = user.notes.filter(({ project }) => project !== id);
+            const _notes = user.notes.filter(({ project }) => project !== id);
             user.notes = _notes;
         }
+        
         const projects = user.projects.filter((p) => p.id !== id);
         user.projects = projects;
         updateUser(user);

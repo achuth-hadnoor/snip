@@ -54,9 +54,23 @@ export const colors = [{
     name: 'Ordinary white'
 }]
 
-export const toggleTheme =()=>{}
+export const toggleTheme = () => {
+    debugger
+}
 
 export const ThemeContext = React.createContext({
     theme: themes.light, toggleTheme
 });
 ThemeContext.displayName = "ThemeContext"
+
+
+export const ThemeWrapper = ({ children }) => { 
+     
+    const [ThemeValue, setThemeValue] = React.useState(themes.dark);
+     
+    return (
+        <ThemeContext.Provider value={{ theme: ThemeValue, setTheme: setThemeValue }}>
+            {children}
+        </ThemeContext.Provider>
+    )
+}

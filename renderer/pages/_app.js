@@ -1,4 +1,5 @@
 import App from 'next/app'
+import styled from 'styled-components'
 import Provider from '../components/provider';
 
 class MyApp extends App {
@@ -6,6 +7,7 @@ class MyApp extends App {
         const { Component, pageProps } = this.props;
         return (
             <Provider>
+                <Movable />
                 <Component {...pageProps} />
             </Provider>
         );
@@ -13,3 +15,8 @@ class MyApp extends App {
 }
 
 export default MyApp;
+
+const Movable = styled.div`
+    height:5px; 
+    cursor:move; 
+`;

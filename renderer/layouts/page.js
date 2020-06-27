@@ -1,10 +1,10 @@
 import { Component } from 'react'
+import Head from 'next/head'
 import Router from 'next/router'
 import Progress from 'nprogress'
 import styled from 'styled-components'
-import { ThemeContext } from './themecontext'
-import { toggleTheme, themes } from './themecontext'
-import Head from 'next/head'
+import {  themes, ThemeWrapper } from './themecontext'
+
 let progress
 const stopProgress = () => {
     clearTimeout(progress)
@@ -21,65 +21,16 @@ Router.onRouteChangeError = stopProgress
 class Page extends Component {
     constructor() {
         super();
-        this.toggleTheme = () => {
-            const theme = localStorage.getItem('theme');
-            if (theme === 'light') {
-                localStorage.setItem('theme', 'dark')
-                return this.setState({
-                    theme: themes.dark
-                });
-            }
-            if (theme === 'dark') {
-                localStorage.setItem('theme', 'light')
-                return this.setState(state => ({
-                    theme: themes.light
-                }));
-
-            }
-            else {
-                const desktopMode = window.matchMedia('(prefers-color-scheme : dark )').matches;
-                if (desktopMode) {
-                    localStorage.setItem('theme', 'light')
-                    return this.setState({
-                        theme: themes.light
-                    });
-                } else {
-                    localStorage.setItem('theme', 'dark')
-                    return this.setState({
-                        theme: themes.dark
-                    });
-                }
-            }
-
-        };
         this.state = {
             theme: themes.dark,
-            toggleTheme: this.toggleTheme,
         }
         this.handleKeypress = this.handleKeypress.bind(this)
-    }
+    } 
+
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress, true);
-        const theme = localStorage.getItem('theme');
-        if (theme === 'light') {
-            return this.setState({ theme: themes.light })
-        } if (theme === 'dark') {
-            return this.setState({ theme: themes.dark })
-        }
-        else {
-            const desktopMode = window.matchMedia('(prefers-color-scheme : dark )').matches;
-            if (desktopMode) {
-                return this.setState({
-                    theme: themes.dark
-                });
-            }
-            else {
-                return this.setState({
-                    theme: themes.light
-                });
-            }
-        }
     }
+
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeypress, true)
     }
@@ -89,14 +40,10 @@ class Page extends Component {
             return Router.push({
                 pathname: '/new'
             })
-        }
-        // if (event.altKey && event.keyCode === 83) {
-        //     return Router.push({
-        //         pathname: '/settings'
-        //     })
-        // }
+        } 
 
-        if (event.altKey && event.keyCode === 37) {
+        if (event.altKey && event.keyCode === 37) { 
+            
             return Router.push({
                 pathname: '/home?tab=Today'
             })
@@ -106,7 +53,7 @@ class Page extends Component {
     render() {
         const { children } = this.props;
         return (
-            <ThemeContext.Provider value={this.state}>
+            <ThemeWrapper>
                 <Head>
                     <title>Snip Note</title>
                     <link rel="manifest" href="/manifest.json" />
@@ -119,11 +66,13 @@ class Page extends Component {
                 <Wrapper>
                     {children}
                 </Wrapper>
-            </ThemeContext.Provider>
+            </ThemeWrapper>
         )
     }
 }
+
 export default Page
+
 const Wrapper = styled.div`
     display:flex; 
     flex-direction:column;

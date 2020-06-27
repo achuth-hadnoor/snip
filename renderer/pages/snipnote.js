@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 import Router from 'next/router'
-import Input from './../components/input'
-import Project from './../components/p'
-import Nav from '../components/nav'
-import Checklist from './../components/checklist'
-import Icon from 'react-icons-kit';
-import { plus } from 'react-icons-kit/feather';
-import { check } from 'react-icons-kit/feather';
 import { getUser, setNote, getNote, updateNote, removeNote } from '../services/local-storage'
+import Input from '../components/input'
+import Project from '../components/p'
+import Nav from '../components/nav'
+import Checklist from '../components/checklist'
+import Icon from 'react-icons-kit';
+import { check ,plus} from 'react-icons-kit/feather';
 class Snip extends React.Component {
     constructor() {
         super();
@@ -39,7 +38,7 @@ class Snip extends React.Component {
             });
         }
     }
-    onChange = (e) => {
+    onChange(e){
         const { name, value } = e.target;
         this.setState({ notes: { ...this.state.notes, [name]: value } });
     }

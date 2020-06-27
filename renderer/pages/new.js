@@ -26,7 +26,7 @@ class New extends React.Component {
         this.setState({ user: user })
 
     }
-    onChange = (e) => {
+    onChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value })
     }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import Page from '../layouts/page';
-import { ThemeContext  } from '../layouts/themecontext'
+import { ThemeContext } from '../layouts/themecontext'
 
 
 // Global Styles
@@ -33,7 +33,7 @@ html,body{
     transition:all 1s ease-in-out;
     height: 14px;
     width:5px;
-    background: ${props=> props.theme.background.primary};
+    background: ${props => props.theme.background.primary};
 }  
 ::-webkit-scrollbar-track { 
     transition:all 1s ease-in-out;
@@ -43,7 +43,7 @@ html,body{
     border-radius: 8px; 
 }
 ::-webkit-scrollbar-thumb {
-   background: ${props=> props.theme.background.accent};
+   background: ${props => props.theme.background.accent};
 } 
 #__next{
   padding:0;
@@ -82,7 +82,7 @@ input[type="submit"] {
         pointer-events: none;
       }
       #nprogress .bar {
-        background: ${props=> props.theme.background.accent};
+        background: palegreen;
         position: fixed;
         z-index: 1031;
         top: 0;
@@ -96,7 +96,7 @@ input[type="submit"] {
         right: 0px;
         width: 100px;
         height: 100%;
-        box-shadow: 0 0 10px ${props=> props.theme.background.accent}, 0 0 5px ${props=> props.theme.background.accent};
+        box-shadow: 0 0 10px ${props => props.theme.background.accent}, 0 0 5px ${props => props.theme.background.accent};
         opacity: 1;
         transform: rotate(3deg) translate(0px, -4px);
       }
@@ -110,7 +110,7 @@ input[type="submit"] {
 `;
 
 
-export default  (props) => { 
+export default (props) => {
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => {
         setMounted(true)
@@ -131,5 +131,6 @@ export default  (props) => {
     if (!mounted) {
         return <div style={{ visibility: 'hidden' }}>{body}</div>
     }
+    
     return body
 }

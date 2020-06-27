@@ -1,15 +1,14 @@
-import styled from 'styled-components'
-import CheckList from '../checklist'
-import { getProject } from '../../services/local-storage'
-import Draggable from './sortable/drag-handle'
+import styled from 'styled-components'  
 import Link from 'next/link';
+import Draggable from './sortable/drag-handle'
+
 export default ({ note, onDone, project }) => {
     return <Task color={project.hex} >
         <Checkbox
             name="checked"
             accent={project.hex}
             checked={note.completed}
-            onClick={() => onDone(p.id)}
+            onClick={() => onDone(project.id)}
         />
         <Link href={`/snipnote?id=` + note.id}>
             <a style={{ display: 'flex', flex: 1 }}>

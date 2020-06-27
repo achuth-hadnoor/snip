@@ -13,8 +13,8 @@ const prepareNext = require('electron-next')
 const { resolve } = require('app-root-path')
 
 // Utils
-const { getConfig } = require('./utils/config')
-const autoUpdater = require('./updater')
+const { getConfig } = require('./main/utils/config')
+const autoUpdater = require('./main/updater')
 
 const TRAY_ARROW_HEIGHT = 90;
 const WINDOW_WIDTH = 320;

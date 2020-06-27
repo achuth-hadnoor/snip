@@ -23,19 +23,16 @@ const Navigation = ({ list, tabSelected }) => {
     )
 }
 
-const Tabs = styled.ul`
-        position:fixed;
-        bottom:0;
+const Tabs = styled.ul`  
         list-style:none;
         display:flex; 
         margin:0;
-        padding:0;
+        padding:10px 0px;
         font-size:16px;
         user-select:none;
         max-width:300px;
         background:${props=>props.theme.background.primary};
-        width:100%;
-        flex:1; 
+        width:100%; 
         z-index:9;
 `;
 
