@@ -1,159 +1,135 @@
-'use strict'
-
-// Native
-import { platform } from 'os'
-
-// Packages
 import { Component } from 'react'
 import Router from 'next/router'
 import Progress from 'nprogress'
-
-// Components
-import WinControls from '../components/win-controls'
-
-// Theme
-import { colors, typography } from './../theme'
-
+import styled from 'styled-components'
+import { ThemeContext } from './themecontext'
+import { toggleTheme, themes } from './themecontext'
+import Head from 'next/head'
 let progress
 const stopProgress = () => {
-  clearTimeout(progress)
-  Progress.done()
+    clearTimeout(progress)
+    Progress.done()
 }
 
 Router.onRouteChangeStart = () => {
-  progress = setTimeout(Progress.start, 200)
+    progress = setTimeout(Progress.start, 200)
 }
 
 Router.onRouteChangeComplete = stopProgress
 Router.onRouteChangeError = stopProgress
 
 class Page extends Component {
-  constructor() {
-    super()
+    constructor() {
+        super();
+        this.toggleTheme = () => {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'light') {
+                localStorage.setItem('theme', 'dark')
+                return this.setState({
+                    theme: themes.dark
+                });
+            }
+            if (theme === 'dark') {
+                localStorage.setItem('theme', 'light')
+                return this.setState(state => ({
+                    theme: themes.light
+                }));
 
-    this.handleKeypress = this.handleKeypress.bind(this)
-  }
+            }
+            else {
+                const desktopMode = window.matchMedia('(prefers-color-scheme : dark )').matches;
+                if (desktopMode) {
+                    localStorage.setItem('theme', 'light')
+                    return this.setState({
+                        theme: themes.light
+                    });
+                } else {
+                    localStorage.setItem('theme', 'dark')
+                    return this.setState({
+                        theme: themes.dark
+                    });
+                }
+            }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeypress, true)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeypress, true)
-  }
-
-  handleKeypress(event) {
-    if (event.keyCode === 27) {
-      return Router.push({
-        pathname: '/home',
-        query: { tab: 'Today' }
-      })
+        };
+        this.state = {
+            theme: themes.dark,
+            toggleTheme: this.toggleTheme,
+        }
+        this.handleKeypress = this.handleKeypress.bind(this)
+    }
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeypress, true);
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light') {
+            return this.setState({ theme: themes.light })
+        } if (theme === 'dark') {
+            return this.setState({ theme: themes.dark })
+        }
+        else {
+            const desktopMode = window.matchMedia('(prefers-color-scheme : dark )').matches;
+            if (desktopMode) {
+                return this.setState({
+                    theme: themes.dark
+                });
+            }
+            else {
+                return this.setState({
+                    theme: themes.light
+                });
+            }
+        }
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeypress, true)
     }
 
-    if ((event.ctrlKey || event.metaKey) && event.keyCode === 78) {
-      return Router.push('/add')
+    handleKeypress(event) {
+        if (event.altKey && event.keyCode === 78) {
+            return Router.push({
+                pathname: '/new'
+            })
+        }
+        // if (event.altKey && event.keyCode === 83) {
+        //     return Router.push({
+        //         pathname: '/settings'
+        //     })
+        // }
+
+        if (event.altKey && event.keyCode === 37) {
+            return Router.push({
+                pathname: '/home?tab=Today'
+            })
+        }
     }
 
-    if ((event.ctrlKey || event.metaKey) && event.keyCode === 49) {
-      return Router.push({
-        pathname: '/home',
-        query: { tab: 'Today' }
-      })
+    render() {
+        const { children } = this.props;
+        return (
+            <ThemeContext.Provider value={this.state}>
+                <Head>
+                    <title>Snip Note</title>
+                    <link rel="manifest" href="/manifest.json" />
+                    <meta name="theme-color" content="#000" />
+                    <meta
+                        name="description"
+                        content="A notes app to get your task done..."
+                    />
+                </Head>
+                <Wrapper>
+                    {children}
+                </Wrapper>
+            </ThemeContext.Provider>
+        )
     }
-
-    if ((event.ctrlKey || event.metaKey) && event.keyCode === 50) {
-      return Router.push({
-        pathname: '/home',
-        query: { tab: 'Backlog' }
-      })
-    }
-
-    if ((event.ctrlKey || event.metaKey) && event.keyCode === 51) {
-      return Router.push({
-        pathname: '/home',
-        query: { tab: 'Done' }
-      })
-    }
-  }
-
-  render() {
-    const { children } = this.props
-    const bgColor = colors ? colors.black : colors.black
-    const fontSizeBase = typography
-      ? typography.fontSizeBase
-      : typography.fontSizeBase
-
-    return (
-      <main>
-        {platform() === 'win32' ? <WinControls /> : null}
-
-        {children}
-
-        <style jsx global>{`
-          * {
-            padding: 0;
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-            box-sizing: border-box;
-            font-family: -apple-system, system-ui, BlinkMacSystemFont,
-              'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-          }
-
-          body {
-            background-color: ${bgColor};
-            max-height: 550px;
-            overflow: hidden;
-          }
-
-          body,
-          html {
-            font-size: ${fontSizeBase};
-          }
-
-          a {
-            text-decoration: none;
-          }
-
-          li {
-            list-style: none;
-          }
-
-          img {
-            max-width: 100%;
-          }
-
-          fieldset {
-            border: 0;
-          }
-
-          #nprogress {
-            pointer-events: none;
-          }
-
-          #nprogress .bar {
-            background: ${colors.white};
-            position: fixed;
-            z-index: 1031;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-          }
-
-          #nprogress .peg {
-            display: block;
-            position: absolute;
-            right: 0px;
-            width: 100px;
-            height: 100%;
-            box-shadow: 0 0 10px ${colors.white}, 0 0 5px ${colors.white};
-            opacity: 1;
-            transform: rotate(3deg) translate(0px, -4px);
-          }
-        `}</style>
-      </main>
-    )
-  }
 }
-
 export default Page
+const Wrapper = styled.div`
+    display:flex; 
+    flex-direction:column;
+    max-width:600px;
+    width:100%;
+    flex:1;
+    height:100%;
+    margin:auto;  
+`;

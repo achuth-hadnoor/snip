@@ -1,7 +1,7 @@
 // Packages
 const { remote } = require('electron')
 
-module.exports = ({ title, body, url, onClick }) => {
+module.exports = ({ title, body, url, onClick }) => { 
   const icon = 'static/icon.ico'
   const specs = {
     title,

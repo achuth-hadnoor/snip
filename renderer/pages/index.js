@@ -10,7 +10,6 @@ import Icon from 'react-icons-kit'
 import Nav from './../components/nav'
 import Input from './../components/input'
 import { chevronLeft, chevronRight,arrowRight } from 'react-icons-kit/feather'
-
 class Home extends React.Component {
     constructor() {
         super();
