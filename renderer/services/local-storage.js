@@ -110,17 +110,17 @@ export const getProject = (Pid) => {
     return _project[0];
 }
 
-export const setproject = ({ hex }) => {
-    return new Promise( (resolve, reject) => { 
+export const setproject = ({ hex ,title}) => {
+    return new Promise( async(resolve, reject) => { 
         if (!hex) {
             return reject(TypeError('Select Project Color'))
         }
         
         const { user } = getUser();
-        const  title  = title.toLowerCase()
+         
         const _project = {
-            id: uid(10),
-            title,
+            id: await uid(10),
+            title : title.toLowerCase(),
             hex 
         }
         const _projects = [...user.projects, _project];

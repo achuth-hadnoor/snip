@@ -20,7 +20,7 @@ const Navigation = ({ title, snipdel }) => {
             return (
                 <NavWrapper>
                     <Title>{title}</Title>
-                    <Link href="/"><a><Icon icon={x} /></a></Link>
+                    <Link href="/home?tab=Snips"><a><Icon icon={x} /></a></Link>
                 </NavWrapper>);
         case '/snipnote':
             return (

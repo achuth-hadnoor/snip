@@ -65,8 +65,8 @@ class CheckList extends React.Component {
         return (
             <ListWrapper>
                 <form onSubmit={this.addList}>
-                    <Input title="List"
-                        placeholder="Enter new List item"
+                    <Input  
+                        placeholder="Enter new command"
                         name="value"
                         value={this.state.value}
                         onChange={this.onChange} />
@@ -93,20 +93,19 @@ class CheckList extends React.Component {
     }
 }
 export default CheckList;
+
 const ListWrapper = styled.div`
-display:flex;
-flex-direction:column;
-max-height:500px;
-height:100%;
-overflow:scroll;
-align-items:${props=>props.empty ? "center":'none'}
+    display:flex;
+    flex-direction:column;  
+    overflow:auto;
+    align-items:${props=>props.empty ? "center":'none'};
+    padding-bottom:100px;
 `;
+
 const ListItem = styled.div`
-display:flex;
-margin-top:10px;
-
+    display:flex;
+    margin-top:10px;
 `;
-
 const Checkbox = styled.span`
     display:inline-block;
     height:20px;

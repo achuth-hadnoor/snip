@@ -12,6 +12,7 @@ import { colors } from './../layouts/themecontext'
 import SortableComponent from '../components/Home/sortable/sortable-component';
 import { arrayMove } from 'react-sortable-hoc';
 import Link from 'next/link';
+
 class Home extends React.Component {
     constructor() {
         super();
@@ -26,7 +27,7 @@ class Home extends React.Component {
             projects: [],
             theme: false,
             active: false,
-            activeTab: 'Projects',
+            activeTab: 'Snips',
             colors: colors,
             search_notes: []
         }
@@ -35,7 +36,7 @@ class Home extends React.Component {
     componentDidMount() {
         const { user } = getUser();
         const tabSelected = Router.router.query.tab;
-        this.setState({ user: user, projects: user.projects, activeTab: tabSelected }); 
+        this.setState({ user: user, projects: user.projects, activeTab: tabSelected });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -45,10 +46,7 @@ class Home extends React.Component {
         }
     }
 
-    selectTab = (tabSelected)=> {
-        this.setState({ tabSelected })
-    }
-    addProject = async () => {
+    addProject = async () => { 
         if (this.state.project.title) {
             return setproject(this.state.project).then(async (user) => {
                 const projects = [...this.state.projects, this.state.project];
@@ -79,7 +77,7 @@ class Home extends React.Component {
         var project = this.state.project;
         project.title = e.target.value;
         this.setState({ project: project })
-    } 
+    }
     onSearchChange = (e) => {
         const { target } = e;
         const { name, value } = target;
@@ -142,7 +140,7 @@ class Home extends React.Component {
         const { activeTab, user } = this.state;
         const tasks = user.notes;
         const tabList = [
-            { name: 'Snips', href: "/home?tab=Snips" }, 
+            { name: 'Snips', href: "/home?tab=Snips" },
             { name: 'Projects', href: "/home?tab=Projects" }
         ]
         switch (activeTab) {
@@ -163,22 +161,6 @@ class Home extends React.Component {
                         })
                     }} />
                 break;
-            case 'Done':
-                const Donetasks = tasks ? tasks.filter(({ completed }) => completed === true) : [];
-                content = Donetasks.length === 0 ?
-                    <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>Yass!! All Caught up .🙌</div>
-                    :
-                    <SortableComponent title="Done" notes={Donetasks} onSortEnd={this.onSortEnd} onDone={(i) => {
-                        getNote(i).then(({ id, title, note, project, checklist, completed }) => {
-                            if (id === i) {
-                                completed = false;
-                                updateNote({ id, title, note, project, checklist, completed }).then((user) => {
-                                    this.setState({ user: user });
-                                })
-                            }
-                        })
-                    }} />
-                break;
             case 'Projects':
                 content = (
                     <>
@@ -189,16 +171,14 @@ class Home extends React.Component {
                             _pro.hex = color.hex;
                             this.setState({ project: _pro })
                         }} project={this.state.project} />
-                        <Link href="/new">
-                            <Continuee style={{ cursor: 'pointer' }} onClick={this.addProject}><Icon icon={check} /><span>Add Project</span></Continuee>
-                        </Link>
+                        <Continuee style={{ cursor: 'pointer' }} onClick={this.addProject}><Icon icon={check} /><span>Add Project</span></Continuee>
                         <div>
                             <Title>Projects</Title>
                             <Plist>
                                 {
                                     this.state.projects.map((p, i) => <React.Fragment key={p + i}>
                                         <li>
-                                            <span style={{ background: p.hex, height: '15px', width: '15px', margin: '10px',borderRadius:'2px' }}></span>
+                                            <span style={{ background: p.hex, height: '15px', width: '15px', margin: '10px', borderRadius: '2px' }}></span>
                                             <Title>{p.title}</Title>
                                             {p.title !== 'untitled' ? <Icon icon={x} onClick={() => this.removeProject(p.id)} /> : null}
                                         </li>
@@ -238,7 +218,7 @@ class Home extends React.Component {
                         }} />
                     }
                 </TaskWrapper>
-                
+
                 {
                     this.state.activeTab === 'Snips' ?
                         <Link href="/new">

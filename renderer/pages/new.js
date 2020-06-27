@@ -3,10 +3,9 @@ import Router from 'next/router'
 import Input from '../components/input'
 import Project from '../components/p'
 import Nav from '../components/nav'
-import Checklist from '../components/checklist'
+import Commands from '../components/checklist'
 import Icon from 'react-icons-kit';
-import { plus } from 'react-icons-kit/feather';
-import { check } from 'react-icons-kit/feather';
+import { check ,plus} from 'react-icons-kit/feather';
 import { getUser, setNote } from '../services/local-storage'
 class New extends React.Component {
     constructor() {
@@ -15,8 +14,8 @@ class New extends React.Component {
             title: '',
             note: '',
             project: 'untitled',
-            checklist: [],
-            active: 'Notes',
+            Commands: [],
+            active: 'Commands',
             user: {}
         }
     }
@@ -26,14 +25,14 @@ class New extends React.Component {
         this.setState({ user: user })
 
     }
-    onChange(e) {
+    onChange = (e)=> {
         const { name, value } = e.target;
         this.setState({ [name]: value })
     }
     render() {
         return (
-            <>
-                <Nav title={'New'} />
+            <div style={{flex:1}}>
+                <Nav title={'New Snip'} />
                 <Input
                     title='Title'
                     placeholder="Enter title"
@@ -48,35 +47,35 @@ class New extends React.Component {
                         }} />
                 <Tabs>
                     <Tab
+                        active={this.state.active === 'Commands' ? true : false}
+                        onClick={() => { this.setState({ active: 'Commands' }) }}>
+                        Commands
+                    </Tab>
+                    <Tab
                         active={this.state.active === 'Notes' ? true : false}
                         onClick={() => { this.setState({ active: 'Notes' }) }}>
                         Notes
-                    </Tab>
-                    <Tab
-                        active={this.state.active === 'Checklist' ? true : false}
-                        onClick={() => { this.setState({ active: 'Checklist' }) }}>
-                        Checklist
                     </Tab>
                 </Tabs>
                 {
                     this.state.active === 'Notes' ?
                         <TextArea
-                            placeholder='Jot down some notes... Start typing notes...'
+                            placeholder='Descripbe your snippet'
                             onChange={this.onChange}
                             name="note"
                             value={this.state.note} />
                         :
-                        <Checklist
-                            lists={this.state.checklist}
-                            onComplete={(list) => { this.setState({ checklist: list }) }} />
+                        <Commands
+                            lists={this.state.Commands}
+                            onComplete={(list) => { this.setState({ Commands: list }) }} />
                 }
                 <Continuee style={{ cursor: 'pointer' }} onClick={() => {
-                    const { title, note, project, checklist } = this.state;
+                    const { title, note, project, Commands } = this.state;
                     let Note = {
                         title: title,
                         project: project,
                         note: note,
-                        checklist: checklist
+                        Commands: Commands
                     }
                     setNote(Note).then((user) => {
                         this.setState({ user: user });
@@ -86,7 +85,7 @@ class New extends React.Component {
                     });
 
                 }}><Icon icon={check} /> Done </Continuee>
-            </>
+            </div>
         )
     }
 }
