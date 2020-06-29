@@ -67,7 +67,6 @@ const Title = styled.div`
     /* font-weight:700; */
     flex:1;
     font-family:monospace;
-    color:${props => props.theme.color.primary};
-    /* text-align:center; */
+    color:${props => props.theme.color.primary}; 
     user-select:none;
 `;
