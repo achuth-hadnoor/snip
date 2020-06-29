@@ -55,7 +55,7 @@ export const colors = [{
 }]
 
 export const toggleTheme = () => {
-    debugger
+    
 }
 
 export const ThemeContext = React.createContext({

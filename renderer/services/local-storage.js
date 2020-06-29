@@ -9,7 +9,8 @@ export const getUser = () => {
     const cfg = {
         user: {
             name: '',
-            snips: [],
+            description:'',
+            snips : [],
             projects: [{
                 id: 'untitled',
                 title: 'untitled',
@@ -32,13 +33,13 @@ export const updateUser = (user) => {
 }
 
 export const setSnip = ({ title, project, snip, commands, tab = 'Snips' }) => {
-    return new Promise( (resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
         if (!title) {
             return reject(new TypeError('title is required'))
         }
         
         const { user } = getUser();
-        const id =  uid(20);
+        const id = await uid(20);
         const _snip = {
             id,
             title,
@@ -49,7 +50,7 @@ export const setSnip = ({ title, project, snip, commands, tab = 'Snips' }) => {
             type: tab.toLowerCase(),
             updatedAt: Date.now(),
             createdAt: Date.now(),
-        }
+        } 
         const _snips = [...user.snips, _snip];
         user.snips = _snips;
         updateUser(user);
@@ -89,7 +90,7 @@ export const updateSnip = ({ id, title, snip, project, commands, completed }) =>
     return resolve(user);
 });
 
-export const removesnip = (_id)=>{
+export const removeSnip = (_id)=>{
     return new Promise((resolve)=>{
         const {user} = getUser();
         const _snips = user.snips.filter(({id})=> id !== _id );

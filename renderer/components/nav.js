@@ -1,20 +1,20 @@
-import React  from 'react'
-import  { useRouter } from 'next/router'
+import React from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import styled from 'styled-components'
 import Icon from 'react-icons-kit'
-import { arrowLeft, x, settings, trash2 } from 'react-icons-kit/feather' 
+import { arrowLeft, x, settings, trash2 } from 'react-icons-kit/feather'
 
-const Navigation = ({ title, snipdel }) => { 
+const Navigation = ({ title, snipdel }) => {
     const router = useRouter();
     switch (router.pathname) {
         case '/home':
             return (
-                <NavWrapper> 
+                <NavWrapper>
                     <Title>Commandly</Title>
                     <Link href="/about">
                         <a> <Icon icon={settings} /> </a>
-                    </Link> 
+                    </Link>
                 </NavWrapper>);
         case '/new':
             return (
@@ -27,21 +27,21 @@ const Navigation = ({ title, snipdel }) => {
                 <NavWrapper>
                     <Link href="/"><a><Icon icon={arrowLeft} /> </a></Link>
                     <Title>{title}</Title>
-                        <Icon icon={trash2} onClick={() => { snipdel(); }} />
+                    <Icon icon={trash2} onClick={() => { snipdel(); }} />
                 </NavWrapper>
             )
         case '/':
             return (
                 <NavWrapper>
-                            <Title>{title}</Title>
-                        </NavWrapper>
+                    <Title>{title}</Title>
+                </NavWrapper>
             )
         default:
             return (
                 <NavWrapper>
-                            <Link href="/"><a><Icon icon={arrowLeft} /></a></Link>
-                            <Title>{title}</Title>
-                        </NavWrapper>
+                    <Link href="/"><a><Icon icon={arrowLeft} /></a></Link>
+                    <Title>{title}</Title>
+                </NavWrapper>
             )
     }
 }
@@ -54,10 +54,10 @@ const NavWrapper = styled.nav`
     align-items:center;
     background:${props => props.theme.background.primary};
     i{
-                            padding:10px;
+        padding:10px;
     }
     span{
-                            flex:1
+        flex:1
     }
 `;
 

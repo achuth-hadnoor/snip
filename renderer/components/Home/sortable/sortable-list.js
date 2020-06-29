@@ -16,6 +16,7 @@ const SortableList = SortableContainer(
                     project={_project}
                     onDone={onDone}
                     onMove={onMove}
+                    commands = {note.commands}
                 />
             );
         })

@@ -43,7 +43,7 @@ class Home extends React.Component {
         if (nextProps.router.query.tab !== this.state.activeTab) {
             const { user } = getUser();
             this.setState({ activeTab: nextProps.router.query.tab, user: user });
-        }
+        } 
     }
 
     addProject = async () => { 
@@ -93,15 +93,15 @@ class Home extends React.Component {
             // this.setState({ search_notes: this.state.user.notes });
             return;
         }
-        const _notes = this.state.user.notes.length > 0 && this.state.user.notes.filter(note => {
+        const _notes = this.state.user.snips.length > 0 && this.state.user.snips.filter(note => {
             if (note.title.toLowerCase().includes(value.toLowerCase())) {
                 return true;
             }
-            if (note.note.toLowerCase().includes(value.toLowerCase())) {
+            if (note.snip.toLowerCase().includes(value.toLowerCase())) {
                 return true;
             }
-            if (note.checklist && note.checklist.length > 0) {
-                const _lists = note.checklist.filter((s) => {
+            if (note.commands && note.commands.length > 0) {
+                const _lists = note.commands.filter((s) => {
                     if (s.value.toLowerCase().includes(value.toLowerCase())) {
                         return true;
                     }
@@ -115,13 +115,13 @@ class Home extends React.Component {
     }
     onMove = (type, note) => {
         const { user } = getUser();
-        const noteUpdated = user.notes.map(t => {
+        const noteUpdated = user.snips.map(t => {
             if (t.id === note.id) {
                 return t;
             }
             return t;
         });
-        user.notes = noteUpdated;
+        user.snips = noteUpdated;
         updateUser(user);
         return this.setState({ user });
     }
@@ -129,32 +129,29 @@ class Home extends React.Component {
     onSortEnd = ({ oldIndex, newIndex }) => {
         const userObj = getUser();
         const { user } = this.state;
-        const notes = user.notes;
-        const reordered = arrayMove(notes, oldIndex, newIndex);
-        userObj.user.notes = reordered;
+        const snips = user.snips;
+        const reordered = arrayMove(snips, oldIndex, newIndex);
+        userObj.user.snips = reordered;
         updateUser(userObj.user);
         return this.setState({ user: userObj.user });
     }
     render() {
         let content;
         const { activeTab, user } = this.state;
-        const tasks = user.notes;
+        const tasks = user.snips || [];
         const tabList = [
             { name: 'Snips', href: "/home?tab=Snips" },
             { name: 'Projects', href: "/home?tab=Projects" }
         ]
         switch (activeTab) {
-            case 'Snips':
-
-                const Snipstasks = tasks ? tasks.filter(({ type, completed }) => type === 'Snips' && completed !== true) : [];
-                content = Snipstasks.length === 0 ?
+            case 'Snips': 
+             content = tasks.length === 0 ?
                     <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>Yass!! All Caught up .🙌</div>
                     :
-                    <SortableComponent title="Snips" notes={Snipstasks} onMove={this.onMove} onSortEnd={this.onSortEnd} onDone={(i) => {
-                        getsnip(i).then(({ id, title, note, project, checklist, completed }) => {
+                    <SortableComponent title="Snips" notes={tasks} onMove={this.onMove} onSortEnd={this.onSortEnd} onDone={(i) => {
+                        getsnip(i).then(({ id, title, note, project, commands, completed }) => {
                             if (id === i) {
-                                completed = true;
-                                updateSnip({ id, title, note, project, checklist, completed }).then((user) => {
+                                updateSnip({ id, title, note, project, commands, completed }).then((user) => {
                                     this.setState({ user: user });
                                 })
                             }
@@ -207,10 +204,10 @@ class Home extends React.Component {
                         : null}
                     {this.state.search == '' ? content :
                         <SortableComponent title="Search Results" notes={this.state.search_notes} onSortEnd={this.onSortEnd} onDone={(i) => {
-                            getsnip(i).then(({ id, title, note, project, checklist, completed }) => {
+                            getsnip(i).then(({ id, title, note, project, commands, completed }) => {
                                 if (id === i) {
                                     completed = false;
-                                    updateSnip({ id, title, note, project, checklist, completed }).then((user) => {
+                                    updateSnip({ id, title, note, project, commands, completed }).then((user) => {
                                         this.setState({ user: user });
                                     })
                                 }

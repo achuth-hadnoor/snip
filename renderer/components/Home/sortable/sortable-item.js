@@ -7,12 +7,13 @@ import { SortableElement } from "react-sortable-hoc";
 import Task from '../tasks'
 
 const SortableItem = SortableElement(
-  ({ note,project,onDone}) => {
+  ({ note,project,onDone,commands}) => {
     return (
       <Task
         note = {note}
         project = {project}
         onDone={onDone} 
+        commands = {commands}
       />
     );
   }

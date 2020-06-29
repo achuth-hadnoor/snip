@@ -1,25 +1,37 @@
-import styled from 'styled-components'  
+import styled from 'styled-components'
 import Link from 'next/link';
 import Draggable from './sortable/drag-handle'
+import Icon from 'react-icons-kit';
+import { chevronDown } from 'react-icons-kit/feather';
 
-export default ({ note, onDone, project }) => {
+export default ({ note, onDone, project, commands }) => {
+    const [open, setopen] = React.useState(false)
     return <Task color={project.hex} >
-        <Checkbox
-            name="checked"
-            accent={project.hex}
-            checked={note.completed}
-            onClick={() => onDone(project.id)}
-        />
-        <Link href={`/snipnote?id=` + note.id}>
-            <a style={{ display: 'flex', flex: 1 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <span style={{ fontSize: '.9em', padding: '5px 10px' }}>{note.title}</span>
-                    <span style={{ fontSize: '.7em', padding: '5px 10px' }} >{note.note}</span>
+        <div style={{ display: 'flex', flex: 1 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <div>
+                    { commands.length > 0 && <Icon icon={chevronDown} onClick={() => {
+                        setopen(!open)
+                    }} />}
+                    <Link href={`/snipnote?id=` + note.id}>
+                        <span style={{ fontSize: '.9em', padding: '5px 10px' }}>{note.title}</span>
+                    </Link>
                 </div>
-            </a>
-        </Link>
+                <span style={{ fontSize: '.7em', padding: '5px 10px' }} >{ note.snip.substr(0, 50) + '...' }</span>
+            </div>
+            {
+                open ? (
+                    <ul>
+                        {
+                            commands.length > 0 &&
+                            commands.map((command, i) => <li key={`item` + i} index={i}>{command.value}</li>)
+                        }
+                    </ul>
+                ) : null
+            }
+        </div>
         <Project title={project.title} color={project.hex} />
-        <Draggable/>
+        <Draggable />
     </Task>
 };
 
@@ -29,10 +41,11 @@ const Task = styled.div`
     margin-top:5px;
     cursor:pointer; 
     color:${props => props.theme.color.primary};
-&:hover{
-    background:${props => props.theme.background.secondary};
-    border-radius:3px;
-}
+    align-items:center;
+    &:hover{
+        background:${props => props.theme.background.secondary};
+        border-radius:3px;
+    }
 `;
 
 const Checkbox = styled.span`

@@ -14,7 +14,7 @@ class New extends React.Component {
             title: '',
             snip: '',
             project: 'untitled',
-            Commands: [],
+            commands: [],
             active: 'Commands',
             user: {}
         }
@@ -66,16 +66,17 @@ class New extends React.Component {
                             value={this.state.snip} />
                         :
                         <Commands
-                            lists={this.state.Commands}
-                            onComplete={(list) => { this.setState({ Commands: list }) }} />
+                            lists={this.state.commands}
+                            onComplete={(list) => { this.setState({ commands: list }) }} />
                 }
                 <Continuee style={{ cursor: 'pointer' }} onClick={() => {
-                    const { title, snip, project, Commands } = this.state;
+                    
+                    const { title, snip , project, commands } = this.state;
                     let _snip = {
                         title: title,
                         project: project,
                         snip: snip,
-                        Commands: Commands
+                        commands: commands
                     }
                     setSnip(_snip).then((user) => {
                         this.setState({ user: user });
