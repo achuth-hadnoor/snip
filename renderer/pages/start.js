@@ -45,7 +45,7 @@ class Home extends React.Component {
             <Page>
                 <Nav title="Snipnote" home />
                 {/* <button style={{background:'transparent',textAlign:'right'}} onClick={this.goHome}>SKIP</button> */}
-                {/* <Link href="/home?tab=Today">
+                {/* <Link href="/home?tab=Snips">
                     <a style={{ background: '#000', color: '#555', textAlign: 'right', padding: '5px 10px' }}>Skip</a></Link> */}
                 {
                     this.state.slide === 0 ?

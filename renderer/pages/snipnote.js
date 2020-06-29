@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Router from 'next/router'
-import { getUser, setNote, getNote, updateNote, removeNote } from '../services/local-storage'
+import { getUser, setSnip, getNote, updateNote, removeNote } from '../services/local-storage'
 import Input from '../components/input'
 import Project from '../components/p'
 import Nav from '../components/nav'

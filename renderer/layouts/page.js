@@ -45,7 +45,7 @@ class Page extends Component {
         if (event.altKey && event.keyCode === 37) { 
             
             return Router.push({
-                pathname: '/home?tab=Today'
+                pathname: '/home?tab=Snips'
             })
         }
     }

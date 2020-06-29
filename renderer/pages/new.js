@@ -5,14 +5,14 @@ import Project from '../components/p'
 import Nav from '../components/nav'
 import Commands from '../components/checklist'
 import Icon from 'react-icons-kit';
-import { check ,plus} from 'react-icons-kit/feather';
-import { getUser, setNote } from '../services/local-storage'
+import { check } from 'react-icons-kit/feather';
+import { getUser, setSnip } from '../services/local-storage'
 class New extends React.Component {
     constructor() {
         super();
         this.state = {
             title: '',
-            note: '',
+            snip: '',
             project: 'untitled',
             Commands: [],
             active: 'Commands',
@@ -32,7 +32,7 @@ class New extends React.Component {
     render() {
         return (
             <div style={{flex:1}}>
-                <Nav title={'New Snip'} />
+                <Nav title={'New'} />
                 <Input
                     title='Title'
                     placeholder="Enter title"
@@ -52,38 +52,37 @@ class New extends React.Component {
                         Commands
                     </Tab>
                     <Tab
-                        active={this.state.active === 'Notes' ? true : false}
-                        onClick={() => { this.setState({ active: 'Notes' }) }}>
-                        Notes
+                        active={this.state.active === 'snips' ? true : false}
+                        onClick={() => { this.setState({ active: 'snips' }) }}>
+                        Description
                     </Tab>
                 </Tabs>
                 {
-                    this.state.active === 'Notes' ?
+                    this.state.active === 'snips' ?
                         <TextArea
                             placeholder='Descripbe your snippet'
                             onChange={this.onChange}
-                            name="note"
-                            value={this.state.note} />
+                            name="snip"
+                            value={this.state.snip} />
                         :
                         <Commands
                             lists={this.state.Commands}
                             onComplete={(list) => { this.setState({ Commands: list }) }} />
                 }
                 <Continuee style={{ cursor: 'pointer' }} onClick={() => {
-                    const { title, note, project, Commands } = this.state;
-                    let Note = {
+                    const { title, snip, project, Commands } = this.state;
+                    let _snip = {
                         title: title,
                         project: project,
-                        note: note,
+                        snip: snip,
                         Commands: Commands
                     }
-                    setNote(Note).then((user) => {
+                    setSnip(_snip).then((user) => {
                         this.setState({ user: user });
                         Router.push('/')
                     }).catch(e=>{
                         alert(e)
                     });
-
                 }}><Icon icon={check} /> Done </Continuee>
             </div>
         )

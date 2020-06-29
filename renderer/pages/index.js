@@ -29,21 +29,21 @@ class Home extends React.Component {
     componentDidMount() {
         const { user } = getUser();
         if (user.onboard) {
-            Router.push('/home?tab=Today');
+            Router.push('/home?tab=Snips');
             return;
         }
         user.onboard = true;
         updateUser(user);
     }
     goHome() {
-        Router.push({ path: 'home', query: { tab: 'Today' } });
+        Router.push({ path: 'home', query: { tab: 'Snips' } });
     }
     render() {
         return (
             <Page>
                 <Nav title="Snipnote" home />
                 {/* <button style={{background:'transparent',textAlign:'right'}} onClick={this.goHome}>SKIP</button> */}
-                {/* <Link href="/home?tab=Today">
+                {/* <Link href="/home?tab=Snips">
                     <a style={{ background: '#000', color: '#555', textAlign: 'right', padding: '5px 10px' }}>Skip</a></Link> */}
                 {
                     this.state.slide === 0 ?
@@ -115,11 +115,11 @@ const EnterName = ({username}) => {
             user.name = name;
             user.onboard = true;
             updateUser(user); 
-            Router.push({path:'home',query:{tab:'Today'}})
+            Router.push({path:'home',query:{tab:'Snips'}})
         }} style={{display:'flex',alignItems:"center",justifyContent:"center"}}>
             <Input placeholder="Enter your name! 😁" style={{ borderRadius: '10px' ,flex:'1'}} name='name' value={name} onChange={(e)=>setName(e.target.value)}/>
             <Link 
-                href="/home?tab=Today"
+                href="/home?tab=Snips"
                >
              <a  onClick={(e)=>{ 
                     const {user} = getUser(); 

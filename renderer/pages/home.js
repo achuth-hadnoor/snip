@@ -3,7 +3,7 @@ import Router, { withRouter } from 'next/router'
 import styled from 'styled-components'
 import Icon from 'react-icons-kit'
 import { check, x, plus } from 'react-icons-kit/feather';
-import { getUser, setproject, removeProject, getNote, updateNote, updateUser } from '../services/local-storage';
+import { getUser, setproject, removeProject, getSnip, updateSnip, updateUser } from '../services/local-storage';
 import Nav from '../components/nav'
 import Input from './../components/input'
 // import Tasks from './../components/Home/tasks'
@@ -151,10 +151,10 @@ class Home extends React.Component {
                     <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>Yass!! All Caught up .🙌</div>
                     :
                     <SortableComponent title="Snips" notes={Snipstasks} onMove={this.onMove} onSortEnd={this.onSortEnd} onDone={(i) => {
-                        getNote(i).then(({ id, title, note, project, checklist, completed }) => {
+                        getsnip(i).then(({ id, title, note, project, checklist, completed }) => {
                             if (id === i) {
                                 completed = true;
-                                updateNote({ id, title, note, project, checklist, completed }).then((user) => {
+                                updateSnip({ id, title, note, project, checklist, completed }).then((user) => {
                                     this.setState({ user: user });
                                 })
                             }
@@ -207,10 +207,10 @@ class Home extends React.Component {
                         : null}
                     {this.state.search == '' ? content :
                         <SortableComponent title="Search Results" notes={this.state.search_notes} onSortEnd={this.onSortEnd} onDone={(i) => {
-                            getNote(i).then(({ id, title, note, project, checklist, completed }) => {
+                            getsnip(i).then(({ id, title, note, project, checklist, completed }) => {
                                 if (id === i) {
                                     completed = false;
-                                    updateNote({ id, title, note, project, checklist, completed }).then((user) => {
+                                    updateSnip({ id, title, note, project, checklist, completed }).then((user) => {
                                         this.setState({ user: user });
                                     })
                                 }

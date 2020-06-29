@@ -69,4 +69,5 @@ const Title = styled.div`
     font-family:monospace;
     color:${props => props.theme.color.primary};
     /* text-align:center; */
+    user-select:none;
 `;

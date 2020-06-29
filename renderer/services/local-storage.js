@@ -1,7 +1,7 @@
 import uid from 'uid-promise'
 
 export const getUser = () => {
-    const user = JSON.parse(localStorage.getItem('snipnote'))
+    const user = JSON.parse(localStorage.getItem('snipsnip'))
     if (user) {
         return user
     }
@@ -9,7 +9,7 @@ export const getUser = () => {
     const cfg = {
         user: {
             name: '',
-            notes: [],
+            snips: [],
             projects: [{
                 id: 'untitled',
                 title: 'untitled',
@@ -22,16 +22,16 @@ export const getUser = () => {
             updatedAt: Date.now()
         }
     }
-    localStorage.setItem('snipnote', JSON.stringify(cfg))
+    localStorage.setItem('snipsnip', JSON.stringify(cfg))
     return cfg;
 }
 
 export const updateUser = (user) => {
     user.updatedAt = Date.now();
-    return localStorage.setItem('snipnote', JSON.stringify({ user }));
+    return localStorage.setItem('snipsnip', JSON.stringify({ user }));
 }
 
-export const setNote = ({ title, project, note, checklist, tab = 'Today' }) => {
+export const setSnip = ({ title, project, snip, commands, tab = 'Snips' }) => {
     return new Promise( (resolve, reject) => {
         if (!title) {
             return reject(new TypeError('title is required'))
@@ -39,43 +39,43 @@ export const setNote = ({ title, project, note, checklist, tab = 'Today' }) => {
         
         const { user } = getUser();
         const id =  uid(20);
-        const _note = {
+        const _snip = {
             id,
             title,
             project,
-            note,
-            checklist,
+            snip,
+            commands,
             completed: false,
             type: tab.toLowerCase(),
             updatedAt: Date.now(),
             createdAt: Date.now(),
         }
-        const _notes = [...user.notes, _note];
-        user.notes = _notes;
+        const _snips = [...user.snips, _snip];
+        user.snips = _snips;
         updateUser(user);
        
         return resolve(user);
     })
 }
 
-export const getNote = (_id) => {
+export const getSnip = (_id) => {
     return new Promise((resolve, reject) => {
         const { user } = getUser();
-        const {notes} = user;
-        const _note = notes.filter(({id})=>id === _id);
-         return _note ?  resolve(_note[0]) : reject() 
+        const {snips} = user;
+        const _snip = snips.filter(({id})=>id === _id);
+         return _snip ?  resolve(_snip[0]) : reject() 
     })
 }
 
-export const updateNote = ({ id, title, note, project, checklist, completed }) => new Promise((resolve) => {
+export const updateSnip = ({ id, title, snip, project, commands, completed }) => new Promise((resolve) => {
     const { user } = getUser();
-    const { notes } = user;
-    const newNotes = notes.map((n) => {
+    const { snips } = user;
+    const newsnips = snips.map((n) => {
         if (n.id === id) {
             n.id = id;
-            n.note = note;
+            n.snip = snip;
             n.project = project;
-            n.checklist = checklist;
+            n.commands = commands;
             n.title = title;
             n.completed = completed;
             n.updatedAt = Date.now();
@@ -84,16 +84,16 @@ export const updateNote = ({ id, title, note, project, checklist, completed }) =
 
         return n
     });
-    user.notes = newNotes;
+    user.snips = newsnips;
     updateUser(user);
     return resolve(user);
 });
 
-export const removeNote = (_id)=>{
+export const removesnip = (_id)=>{
     return new Promise((resolve)=>{
         const {user} = getUser();
-        const _notes = user.notes.filter(({id})=> id !== _id );
-        user.notes = _notes;
+        const _snips = user.snips.filter(({id})=> id !== _id );
+        user.snips = _snips;
         updateUser(user);
         
         return resolve(user);
@@ -134,8 +134,8 @@ export const removeProject = (id, deleteTasks) => {
     return new Promise((resolve) => {
         const { user } = getUser();
         if (deleteTasks) {
-            const _notes = user.notes.filter(({ project }) => project !== id);
-            user.notes = _notes;
+            const _snips = user.snips.filter(({ project }) => project !== id);
+            user.snips = _snips;
         }
         
         const projects = user.projects.filter((p) => p.id !== id);
