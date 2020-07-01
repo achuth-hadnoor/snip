@@ -1,18 +1,12 @@
 import styled, { ThemeConsumer } from 'styled-components'
-import { useContext } from 'react'
-import { ThemeContext } from '../layouts/themecontext'
+import { ThemeContext, themes, ToggleThemeButton } from '../layouts/themecontext'
+import Link from 'next/link'
 
-export default () => { 
+export default () => {
     return (
-        <>
+        <><ToggleThemeButton/>
+        <Link href="/"><a>Go back please</a></Link>
             <Box title="About" items={[{ value: "product info" }, { value: "website" }]} />
-            <ThemeContext.Consumer>
-                {
-                    ({theme,toggleTheme})=>(
-                        <button onClick={toggleTheme}>toggletheme</button>
-                    )
-                }
-            </ThemeContext.Consumer>
         </>
     )
 }
@@ -32,3 +26,4 @@ const Box = ({ title, items }) => {
         </div>
     )
 }
+

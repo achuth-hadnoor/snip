@@ -4,6 +4,9 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import Icon from 'react-icons-kit'
 import { arrowLeft, x, settings, trash2 } from 'react-icons-kit/feather'
+import { moon } from 'react-icons-kit/feather'
+import { sun } from 'react-icons-kit/feather'
+import { ThemeContext, themes } from '../layouts/themecontext'
 
 const Navigation = ({ title, snipdel }) => {
     const router = useRouter();
@@ -14,7 +17,7 @@ const Navigation = ({ title, snipdel }) => {
                     <Title>Commandly</Title>
                     <Link href="/settings">
                         <a> <Icon icon={settings} /> </a>
-                    </Link>
+                    </Link> 
                 </NavWrapper>);
         case '/new':
             return (

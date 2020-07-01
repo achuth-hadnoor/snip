@@ -64,23 +64,25 @@ class Page extends Component {
     render() {
         const { children } = this.props;
         return (
-            <ThemeContext.Provider value={this.state}>
-                <ThemeProvider theme={this.state.theme}>
-                    <GlobalStyle />
-                    <Head>
-                        <title>Snip Note</title>
-                        <link rel="manifest" href="/manifest.json" />
-                        <meta name="theme-color" content="#000" />
-                        <meta
-                            name="description"
-                            content="A notes app to get your task done..."
-                        />
-                    </Head>
-                    <Wrapper>
-                        {children}
-                    </Wrapper>
-                </ThemeProvider>
-            </ThemeContext.Provider>
+            <>
+                {/* <ThemeContext.Provider value={this.state}>
+                  <ThemeProvider theme={this.state.theme}> */}
+                <GlobalStyle />
+                <Head>
+                    <title>Snip Note</title>
+                    <link rel="manifest" href="/manifest.json" />
+                    <meta name="theme-color" content="#000" />
+                    <meta
+                        name="description"
+                        content="A notes app to get your task done..."
+                    />
+                </Head>
+                <Wrapper>
+                    {children}
+                </Wrapper>
+                {/* </ThemeProvider>
+            </ThemeContext.Provider> */}
+            </>
         )
     }
 }

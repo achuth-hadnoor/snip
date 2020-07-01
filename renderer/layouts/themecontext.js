@@ -1,5 +1,7 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
+import Icon from "react-icons-kit";
+import { moon, sun} from "react-icons-kit/feather"; 
 
 export const themes = {
     light: {
@@ -171,3 +173,20 @@ input[type="submit"] {
       }
 `;
 
+
+
+export const ToggleThemeButton = () => (
+    <ThemeContext.Consumer>
+        {
+            ({ themed, setThemed }) => (
+                <button onClick={() => {
+                    const theme = themed === themes.dark
+                        ? themes.light
+                        : themes.dark;
+                    setThemed(theme);
+                }}><Icon icon ={ themed === themes.dark
+                    ? moon
+                    : sun } /></button>
+            )
+        }
+    </ThemeContext.Consumer>)

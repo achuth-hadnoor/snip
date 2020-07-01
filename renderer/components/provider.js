@@ -1,15 +1,22 @@
-import React, { useContext } from 'react' 
+import React, { useContext } from 'react'
 import Page from '../layouts/page';
+import { themes, ThemeContext } from '../layouts/themecontext';
+import { ThemeProvider } from 'styled-components';
 
 export default (props) => {
     const [mounted, setMounted] = React.useState(false);
+    const [themed, setThemed] = React.useState(themes.dark);
     React.useEffect(() => {
         setMounted(true)
     }, []);
     const body = (
-        <Page>
-            {props.children}
-        </Page>
+        <ThemeContext.Provider value={{themed,setThemed}}>
+            <ThemeProvider theme={themed}>
+                <Page>
+                    {props.children}
+                </Page>
+            </ThemeProvider>
+        </ThemeContext.Provider>
     )
 
     if (!mounted) {
