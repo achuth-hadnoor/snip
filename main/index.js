@@ -109,12 +109,13 @@ function createWindow(){
     useContentSize: false,
     resizable: true,
     skipTaskbar: true,
-    webPreferences: {
-      nodeIntegration: true,
-    }
+    // webPreferences: {
+    //   nodeIntegration: true,
+    // }
   });
   mainWindow.webContents.openDevTools()
   mainWindow.setSkipTaskbar(true);
+ 
   const devPath = 'http://localhost:8000/start'
 
   const prodPath = format({

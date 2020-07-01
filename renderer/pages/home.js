@@ -31,22 +31,22 @@ class Home extends React.Component {
             colors: colors,
             search_notes: []
         }
-        this.addProject = this.addProject.bind(this)
+        this.addProject = this.addProject.bind(this); 
     }
     componentDidMount() {
         const { user } = getUser();
         const tabSelected = Router.router.query.tab;
-        this.setState({ user: user, projects: user.projects, activeTab: tabSelected });
+        this.setState({ user: user, projects: user.projects, activeTab: tabSelected }); 
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.router.query.tab !== this.state.activeTab) {
             const { user } = getUser();
             this.setState({ activeTab: nextProps.router.query.tab, user: user });
-        } 
+        }
     }
 
-    addProject = async () => { 
+    addProject = async () => {
         if (this.state.project.title) {
             return setproject(this.state.project).then(async (user) => {
                 const projects = [...this.state.projects, this.state.project];
@@ -144,8 +144,8 @@ class Home extends React.Component {
             { name: 'Projects', href: "/home?tab=Projects" }
         ]
         switch (activeTab) {
-            case 'Snips': 
-             content = tasks.length === 0 ?
+            case 'Snips':
+                content = tasks.length === 0 ?
                     <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>Yass!! All Caught up .🙌</div>
                     :
                     <SortableComponent title="Snips" notes={tasks} onMove={this.onMove} onSortEnd={this.onSortEnd} onDone={(i) => {
@@ -189,8 +189,9 @@ class Home extends React.Component {
         }
         return (
             <>
-                <Nav mode={user.theme === 'dark'} />
-                <Navigation list={tabList} tabSelected={this.state.activeTab} />
+                    <Nav mode={user.theme === 'dark'} /> 
+                    <Navigation list={tabList} tabSelected={this.state.activeTab} />
+                
                 <TaskWrapper>
                     {this.state.activeTab !== 'Projects' ?
                         <Input
@@ -199,7 +200,8 @@ class Home extends React.Component {
                             type="search"
                             name="search"
                             onChange={this.onSearchChange}
-                            value={this.state.search} />
+                            value={this.state.search} 
+                           />
                         // null
                         : null}
                     {this.state.search == '' ? content :
@@ -222,7 +224,7 @@ class Home extends React.Component {
                             <button
                                 style={{
                                     cursor: 'pointer',
-                                    position: 'absolute',
+                                    position: 'fixed',
                                     bottom: "2%", zIndex: 999, padding: "10px", borderRadius: 50, background: 'palegreen', color: '#121212', right: '5%'
                                 }}
                             >
@@ -242,6 +244,7 @@ const TaskWrapper = styled.div`
     flex:1; 
     font-size:14px; 
     max-width:400px;
+    padding-bottom:70px;
 `
 const Footer = styled.footer`
     position:fixed;

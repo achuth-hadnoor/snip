@@ -24,13 +24,14 @@ const Navigation = ({ list, tabSelected }) => {
 }
 
 const Tabs = styled.ul`  
+        position:sticky; 
+        top:0;
         list-style:none;
         display:flex; 
         margin:0;
         padding:10px 0px;
         font-size:16px;
-        user-select:none;
-        max-width:300px;
+        user-select:none; 
         background:${props=>props.theme.background.primary};
         width:100%; 
         z-index:9;

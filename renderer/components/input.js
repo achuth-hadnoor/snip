@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Icon from 'react-icons-kit'
 import {search} from 'react-icons-kit/feather'
 
-export default (props) => {
+export default (props) => { 
     return (
         <InputWrapper>
            { props.title && <span>{props.title}</span> } 

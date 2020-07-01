@@ -12,7 +12,7 @@ const Navigation = ({ title, snipdel }) => {
             return (
                 <NavWrapper>
                     <Title>Commandly</Title>
-                    <Link href="/about">
+                    <Link href="/settings">
                         <a> <Icon icon={settings} /> </a>
                     </Link>
                 </NavWrapper>);

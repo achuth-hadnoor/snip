@@ -38,7 +38,7 @@ class Snip extends React.Component {
             });
         }
     }
-    onChange(e){
+    onChange = (e)=>{
         const { name, value } = e.target;
         this.setState({ snip: { ...this.state.snip, [name]: value } });
     }
@@ -47,7 +47,7 @@ class Snip extends React.Component {
             <div style={{flex:1}}>
                 {
                     this.state.snip ? <>
-                        <Nav title="Task" snipdel = {()=>{
+                        <Nav title="Commandly" snipdel = {()=>{
                             removeSnip(this.state.snip.id).then(()=>{Router.push('/')})
                         }}/>
                         <Input
@@ -76,9 +76,9 @@ class Snip extends React.Component {
                         {
                             this.state.active === 'Notes' ?
                                 <TextArea
-                                    placeholder='Jot down some notes... Start typing notes...'
+                                    placeholder='Enter few commands'
                                     onChange={this.onChange}
-                                    name="note"
+                                    name="snip"
                                     value={this.state.snip.snip} />
                                 :
                                 <Commands
@@ -90,7 +90,7 @@ class Snip extends React.Component {
                         <Continuee style={{ cursor: 'pointer' }} 
                             onClick={() => {
                                 const { id,title, snip, project, commands } = this.state.snip;  
-                                updateSnip({id,title, note, project, commands}).then((user) => { 
+                                updateSnip({id,title, snip, project, commands}).then((user) => { 
                                     this.setState({ user: user });
                                     Router.push('/')
                                 }).catch(e => {
