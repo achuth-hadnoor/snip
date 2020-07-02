@@ -7,8 +7,8 @@ const { readJSON, writeJSON } = require('fs-extra')
 const pathExists = require('path-exists')
 
 const paths = {
-  config: '.snip.json',
-  theming: '.snip-theme.json'
+  config: '.commandly.json',
+  theming: '.commandly-theme.json'
 }
 
 for (const file in paths) {

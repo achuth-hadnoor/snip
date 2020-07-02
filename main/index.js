@@ -3,7 +3,7 @@ const { app, BrowserWindow, Tray, nativeImage, ipcMain, globalShortcut, Menu } =
 
 const electron = require('electron')
 
-let mainWindow;
+let TrayWindow;
 let tray
 
 
@@ -18,7 +18,8 @@ const { resolve } = require('app-root-path')
 
 // Utils
 // Uconst { getConfig } = require('./utils/config')
-const autoUpdater = require('./updater')
+const autoUpdater = require('./updater');
+const { join } = require('path');
 
 
 const WINDOW_WIDTH = 320;
@@ -53,49 +54,16 @@ app.on('activate', function () {
   }
 })
 
-function createWindow(){
-  
+function createWindow() {
+
   // App config app.config = await getConfig()
 
   const { screen } = electron
 
   const icon = nativeImage.createFromDataURL(base64Icon)
   tray = new Tray(icon)
-  tray.setToolTip('Snip');
-  tray.on('click', () => {
-
-    const cursorPosition = screen.getCursorScreenPoint();
-    const primarySize = screen.getPrimaryDisplay().workAreaSize;
-    const trayPositionVert = cursorPosition.y >= primarySize.height / 2 ? 'bottom' : 'top';
-    const trayPositionHoriz = cursorPosition.x >= primarySize.width / 2 ? () => 'right' : () => 'left';
-
-    mainWindow.setPosition(getTrayPosX(), getTrayPosY());
-    if(mainWindow.isVisible()){
-        mainWindow.hide() 
-    }
-    else{
-        mainWindow.show();
-    } 
-
-    function getTrayPosX() {
-      const horizBounds = {
-        left: cursorPosition.x - WINDOW_WIDTH / 2,
-        right: cursorPosition.x + WINDOW_WIDTH / 2
-      }
-      if (trayPositionHoriz === 'left') {
-        return horizBounds.left <= HORIZ_PADDING ? HORIZ_PADDING : horizBounds.left;
-      }  
-        
-      return horizBounds.right >= primarySize.width ? primarySize.width - HORIZ_PADDING - WINDOW_WIDTH : horizBounds.right - WINDOW_WIDTH;
-     
-    }
-
-    function getTrayPosY() {
-      return trayPositionVert === 'bottom' ? cursorPosition.y - WINDOW_HEIGHT - VERT_PADDING : cursorPosition.y + VERT_PADDING;
-    }
-
-  });
-  mainWindow = new BrowserWindow({
+  tray.setToolTip('Commandly');
+  TrayWindow = new BrowserWindow({
     width: WINDOW_WIDTH,
     height: WINDOW_HEIGHT,
     minWidth: 320,
@@ -109,13 +77,49 @@ function createWindow(){
     useContentSize: false,
     resizable: true,
     skipTaskbar: true,
-    // webPreferences: {
-    //   nodeIntegration: true,
-    // }
+    icon:
+      platform() === 'win32'
+        ? join(__dirname, 'main/static/icon.ico')
+        : join(__dirname, 'main/static/icon.icns'),
+    webPreferences: {
+      nodeIntegration: true,
+    }
   });
-  mainWindow.webContents.openDevTools()
-  mainWindow.setSkipTaskbar(true);
- 
+  tray.on('click', () => { 
+    const cursorPosition = screen.getCursorScreenPoint();
+    const primarySize = screen.getPrimaryDisplay().workAreaSize;
+    const trayPositionVert = cursorPosition.y >= primarySize.height / 2 ? 'bottom' : 'top';
+    const trayPositionHoriz = cursorPosition.x >= primarySize.width / 2 ? () => 'right' : () => 'left';
+
+    TrayWindow.setPosition(getTrayPosX(), getTrayPosY());
+    if (TrayWindow.isVisible()) {
+      TrayWindow.hide()
+    }
+    else {
+      TrayWindow.show();
+    }
+
+    function getTrayPosX() {
+      const horizBounds = {
+        left: cursorPosition.x - WINDOW_WIDTH / 2,
+        right: cursorPosition.x + WINDOW_WIDTH / 2
+      }
+      if (trayPositionHoriz === 'left') {
+        return horizBounds.left <= HORIZ_PADDING ? HORIZ_PADDING : horizBounds.left;
+      }
+
+      return horizBounds.right >= primarySize.width ? primarySize.width - HORIZ_PADDING - WINDOW_WIDTH : horizBounds.right - WINDOW_WIDTH;
+
+    }
+
+    function getTrayPosY() {
+      return trayPositionVert === 'bottom' ? cursorPosition.y - WINDOW_HEIGHT - VERT_PADDING : cursorPosition.y + VERT_PADDING;
+    }
+
+  });
+  TrayWindow.webContents.openDevTools()
+  TrayWindow.setSkipTaskbar(true);
+
   const devPath = 'http://localhost:8000/'
 
   const prodPath = format({
@@ -130,66 +134,14 @@ function createWindow(){
     autoUpdater()
   }
 
-  mainWindow.loadURL(url)
+  TrayWindow.loadURL(url)
+  Menu.setApplicationMenu(null)
 
-  const template = [
-    {
-      label: 'Application',
-      submenu: [
-        {
-          label: 'About Application',
-          selector: 'orderFrontStandardAboutPanel:'
-        },
-        { type: 'separator' },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click: () => app.quit()
-        }
-      ]
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          selector: 'selectAll:'
-        }
-      ]
-    },
-    {
-      label: 'View',
-      submenu: [
-        {
-          label: 'Developer Tools',
-          accelerator: 'CmdOrCtrl+alt+I',
-          click: (item, focusedWindow) => {
-            const {webContents} = focusedWindow
-
-            if (webContents.isDevToolsOpened()) {
-              webContents.closeDevTools()
-            } else {
-              webContents.openDevTools({ mode: 'detach' })
-            }
-          }
-        }
-      ]
-    }
-  ]
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
-
-  mainWindow.on('closed', () => {
-    mainWindow = null
+  TrayWindow.on('closed', () => {
+    TrayWindow = null
   });
-  mainWindow.once('ready-to-show', () => {
-    // On first load mainWindow.show(); // prevent pop on first load 
+  TrayWindow.once('ready-to-show', () => {
+    // On first load TrayWindow.show(); // prevent pop on first load 
     ipcMain.on('open-external-window', (event, arg) => {
       electron.shell.openExternal(arg);
     });
@@ -197,10 +149,10 @@ function createWindow(){
 }
 
 function toggleWindow() {
-  if (mainWindow.isVisible()) {
-    mainWindow.hide();
+  if (TrayWindow.isVisible()) {
+    TrayWindow.hide();
   } else {
-    mainWindow.show();
+    TrayWindow.show();
   }
 }
 

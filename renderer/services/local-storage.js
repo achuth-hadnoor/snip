@@ -1,7 +1,7 @@
 import uid from 'uid-promise' 
 
 export const getUser = () => {
-    const user = JSON.parse(localStorage.getItem('snipsnip'))
+    const user = JSON.parse(localStorage.getItem('commandly'))
     if (user) {
         return user
     }
@@ -23,13 +23,13 @@ export const getUser = () => {
             updatedAt: Date.now()
         }
     }
-    localStorage.setItem('snipsnip', JSON.stringify(cfg))
+    localStorage.setItem('commandly', JSON.stringify(cfg))
     return cfg;
 }
 
 export const updateUser = (user) => {
     user.updatedAt = Date.now();
-    return localStorage.setItem('snipsnip', JSON.stringify({ user }));
+    return localStorage.setItem('commandly', JSON.stringify({ user }));
 }
 
 export const setSnip = ({ title, project, snip, commands, tab = 'Snips' }) => {

@@ -9,7 +9,7 @@ const notify = require('./notify')
 
 module.exports = () => {
   if (!isDev) {
-    const server = 'https://snip.now.sh'
+    const server = 'https://commandly.achuth-hadnoor.vercel.app'
     const feed = `${server}/update/${process.platform}/${app.getVersion()}`
 
     autoUpdater.setFeedURL(feed)

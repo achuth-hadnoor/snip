@@ -41,7 +41,7 @@ class Home extends React.Component {
         return (
             <Page>
                 <div style={{display:"flex",alignItems:'center',justifyContent:'center',height:'100%'}}>
-                <Link href="/home?tab=Snips"><a>SCommandly</a></Link>
+                <Link href="/home?tab=Snips"><a>Commandly</a></Link>
                 </div>
             </Page>
         )
