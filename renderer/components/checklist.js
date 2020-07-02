@@ -6,6 +6,7 @@ import uuid from 'uid-promise';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
 import { clipboard } from 'electron'
+import notify from '../services/notify';
 
 class Commands extends React.Component {
     constructor(props) {
@@ -31,7 +32,12 @@ class Commands extends React.Component {
             this.setState({ lists: lists, value: '' })
             return;
         }
-        alert("Enter list item ");
+        // alert("Enter list item ");
+        
+        notify({
+            title: 'Error!',
+            body: 'Enter List Item'
+        })
     }
 
     onChange = (e) => {

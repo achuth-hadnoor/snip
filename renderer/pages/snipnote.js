@@ -6,7 +6,8 @@ import Project from '../components/p'
 import Nav from '../components/nav'
 import Commands from '../components/checklist'
 import Icon from 'react-icons-kit';
-import { check ,plus} from 'react-icons-kit/feather';
+import { check, plus } from 'react-icons-kit/feather';
+import notify from '../services/notify'
 class Snip extends React.Component {
     constructor() {
         super();
@@ -27,7 +28,7 @@ class Snip extends React.Component {
             let id = Router.router.query.id;
             getSnip(id).then((n) => {
                 let _note = {
-                    id:id,
+                    id: id,
                     title: n.title,
                     snip: n.snip,
                     project: n.project,
@@ -38,18 +39,18 @@ class Snip extends React.Component {
             });
         }
     }
-    onChange = (e)=>{
+    onChange = (e) => {
         const { name, value } = e.target;
         this.setState({ snip: { ...this.state.snip, [name]: value } });
     }
     render() {
         return (
-            <div style={{flex:1}}>
+            <div style={{ flex: 1 }}>
                 {
                     this.state.snip ? <>
-                        <Nav title="Commandly" snipdel = {()=>{
-                            removeSnip(this.state.snip.id).then(()=>{Router.push('/')})
-                        }}/>
+                        <Nav title="Commandly" snipdel={() => {
+                            removeSnip(this.state.snip.id).then(() => { Router.push('/') })
+                        }} />
                         <Input
                             title='Title'
                             placeholder="Enter title"
@@ -72,32 +73,42 @@ class Snip extends React.Component {
                                 Desccription
                     </Tab>
                         </Tabs>
-                        
+
                         {
                             this.state.active === 'Notes' ?
                                 <TextArea
                                     placeholder='Enter few commands'
                                     onChange={this.onChange}
                                     name="snip"
+                                    required
                                     value={this.state.snip.snip} />
                                 :
                                 <Commands
-                                    lists={this.state.snip.commands} 
-                                    onComplete={(list) => {  
-                                        this.setState({ snip: { ...this.state.snip,commands: list }})  
+                                    lists={this.state.snip.commands}
+                                    onComplete={(list) => {
+                                        this.setState({ snip: { ...this.state.snip, commands: list } })
                                     }} />
                         }
-                        <Continuee style={{ cursor: 'pointer' }} 
+                        <Continuee style={{ cursor: 'pointer' }}
                             onClick={() => {
-                                const { id,title, snip, project, commands } = this.state.snip;  
-                                updateSnip({id,title, snip, project, commands}).then((user) => { 
+                                const { id, title, snip, project, commands } = this.state.snip; 
+                                    if(!title || title === ' '){
+                                        return notify({
+                                            title: 'Error!',
+                                            body: 'title is required'
+                                        }) 
+                                    }
+                                updateSnip({ id, title, snip, project, commands }).then((user) => {
                                     this.setState({ user: user });
                                     Router.push('/')
                                 }).catch(e => {
-                                    alert(e)
+                                    notify({
+                                        title: 'Error!',
+                                        body: e
+                                    })
                                 });
                             }}>
-                        <Icon icon={check} /></Continuee></> : <div>loading....</div>
+                            <Icon icon={check} /></Continuee></> : <div>loading....</div>
                 }
             </div>
         )

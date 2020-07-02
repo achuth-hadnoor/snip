@@ -62,6 +62,24 @@ function createWindow(){
   const icon = nativeImage.createFromDataURL(base64Icon)
   tray = new Tray(icon)
   tray.setToolTip('Snip');
+  mainWindow = new BrowserWindow({
+    width: WINDOW_WIDTH,
+    height: WINDOW_HEIGHT,
+    minWidth: 320,
+    minHeight: 500,
+    maxWidth: 320,
+    maxHeight: 500,
+    show: false,
+    alwaysOnTop: true,
+    frame: false,
+    titleBarStyle: 'hiddenInset',
+    useContentSize: false,
+    resizable: true,
+    skipTaskbar: true,
+    webPreferences: {
+      nodeIntegration: false,
+    }
+  });
   tray.on('click', () => {
 
     const cursorPosition = screen.getCursorScreenPoint();
@@ -95,31 +113,13 @@ function createWindow(){
     }
 
   });
-  mainWindow = new BrowserWindow({
-    width: WINDOW_WIDTH,
-    height: WINDOW_HEIGHT,
-    minWidth: 320,
-    minHeight: 500,
-    maxWidth: 320,
-    maxHeight: 500,
-    show: false,
-    alwaysOnTop: true,
-    frame: false,
-    titleBarStyle: 'hiddenInset',
-    useContentSize: false,
-    resizable: true,
-    skipTaskbar: true,
-    // webPreferences: {
-    //   nodeIntegration: true,
-    // }
-  });
   mainWindow.webContents.openDevTools()
   mainWindow.setSkipTaskbar(true);
- 
-  const devPath = 'http://localhost:8000/'
+  mainWindow.setMenu(null);
+  const devPath = 'http://localhost:8000/start'
 
   const prodPath = format({
-    pathname: resolve('renderer/out/index.html'),
+    pathname: resolve('renderer/out/start/index.html'),
     protocol: 'file:',
     slashes: true
   })
@@ -131,60 +131,7 @@ function createWindow(){
   }
 
   mainWindow.loadURL(url)
-
-  const template = [
-    {
-      label: 'Application',
-      submenu: [
-        {
-          label: 'About Application',
-          selector: 'orderFrontStandardAboutPanel:'
-        },
-        { type: 'separator' },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click: () => app.quit()
-        }
-      ]
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          selector: 'selectAll:'
-        }
-      ]
-    },
-    {
-      label: 'View',
-      submenu: [
-        {
-          label: 'Developer Tools',
-          accelerator: 'CmdOrCtrl+alt+I',
-          click: (item, focusedWindow) => {
-            const {webContents} = focusedWindow
-
-            if (webContents.isDevToolsOpened()) {
-              webContents.closeDevTools()
-            } else {
-              webContents.openDevTools({ mode: 'detach' })
-            }
-          }
-        }
-      ]
-    }
-  ]
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
-
+ 
   mainWindow.on('closed', () => {
     mainWindow = null
   });

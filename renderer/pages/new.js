@@ -7,6 +7,7 @@ import Commands from '../components/checklist'
 import Icon from 'react-icons-kit';
 import { check } from 'react-icons-kit/feather';
 import { getUser, setSnip } from '../services/local-storage'
+import notify from '../services/notify'
 class New extends React.Component {
     constructor() {
         super();
@@ -82,7 +83,11 @@ class New extends React.Component {
                         this.setState({ user: user });
                         Router.push('/')
                     }).catch(e=>{
-                        alert(e)
+                        // alert(e)
+                        notify({
+                            title: 'Error!',
+                            body: e
+                        })
                     });
                 }}><Icon icon={check} /> Done </Continuee>
             </div>

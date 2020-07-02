@@ -27,8 +27,7 @@ class Page extends Component {
         }
         this.handleKeypress = this.handleKeypress.bind(this)
     }
-    toggleTheme = () => {
-        debugger
+    toggleTheme = () => { 
         this.setState(state => ({
             theme:
                 state.theme === themes.dark
@@ -65,9 +64,7 @@ class Page extends Component {
         const { children } = this.props;
         return (
             <>
-                {/* <ThemeContext.Provider value={this.state}>
-                  <ThemeProvider theme={this.state.theme}> */}
-                <GlobalStyle />
+            <GlobalStyle />
                 <Head>
                     <title>Snip Note</title>
                     <link rel="manifest" href="/manifest.json" />
@@ -79,9 +76,7 @@ class Page extends Component {
                 </Head>
                 <Wrapper>
                     {children}
-                </Wrapper>
-                {/* </ThemeProvider>
-            </ThemeContext.Provider> */}
+                </Wrapper>  
             </>
         )
     }

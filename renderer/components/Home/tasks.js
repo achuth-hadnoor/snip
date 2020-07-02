@@ -13,7 +13,7 @@ export default ({ note, onDone, project, commands }) => {
             {commands.length > 0 && <Icon icon={chevronDown} onClick={() => {
                 setopen(!open)
             }} />}
-            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 ,cursor:'pointer'}}>
                 <Link href={`/snipnote?id=` + note.id}>
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                         <span style={{ fontSize: '14px', padding: '5px 10px' }}>{note.title}</span>
@@ -54,15 +54,15 @@ const Task = styled.div`
     color:${props => props.theme.color.primary}; 
     background:${props => props.open ? props.theme.background.secondary : 'transparent'};
     user-select:none;
-    border-bottom:1px solid #121212;
-    
+    border-bottom:1px solid ${props=>props.theme.background.secondary};
+    transition: background .2s ease;
     &:hover{
-        background:${props => props.theme.background.secondary};
+        background:${props => props.theme.background.ternary};
         border-radius:3px;
     } 
         .copy{opacity :0}
     li:hover{
-        background:#000;
+        background:${props=>props.theme.background.primary};
         border-radius:5px;
     }
     li:hover .copy{

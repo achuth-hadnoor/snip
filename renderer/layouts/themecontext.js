@@ -2,13 +2,14 @@ import React from "react";
 import { createGlobalStyle } from "styled-components";
 import Icon from "react-icons-kit";
 import { moon, sun} from "react-icons-kit/feather"; 
+import { updateUser, getUser } from "../services/local-storage";
 
 export const themes = {
     light: {
         background: {
             primary: '#fff',
             secondary: '#eee',
-            ternary: '#aaa',
+            ternary: '#efefef',
             accent: 'palegreen'
         },
         color: {
@@ -57,14 +58,13 @@ export const colors = [{
     name: 'Ordinary white'
 }]
 
-export const toggleTheme = (theme) => {
-    debugger
+export const toggleTheme = (theme) => { 
     theme === themes.light ? () => toggleTheme(themes.dark) : () => toggleTheme(themes.light)
 }
 
 export const ThemeContext = React.createContext({
     theme: themes.dark ,
-    toggleTheme:()=>{debugger}
+    toggleTheme:()=>{}
 });
 ThemeContext.displayName = "ThemeContext"
  
@@ -173,9 +173,7 @@ input[type="submit"] {
       }
 `;
 
-
-
-export const ToggleThemeButton = () => (
+export const ToggleThemeButton = ({text}) => (
     <ThemeContext.Consumer>
         {
             ({ themed, setThemed }) => (
@@ -183,10 +181,16 @@ export const ToggleThemeButton = () => (
                     const theme = themed === themes.dark
                         ? themes.light
                         : themes.dark;
+                    const utheme = themed === themes.dark
+                                    ? 'light'
+                                    : 'dark';
+                        const {user} = getUser();
+                        user.theme = utheme;
+                        updateUser(user)
                     setThemed(theme);
                 }}><Icon icon ={ themed === themes.dark
                     ? moon
-                    : sun } /></button>
+                    : sun } /><span>{text}</span></button>
             )
         }
     </ThemeContext.Consumer>)

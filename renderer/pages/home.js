@@ -12,6 +12,7 @@ import { colors } from './../layouts/themecontext'
 import SortableComponent from '../components/Home/sortable/sortable-component';
 import { arrayMove } from 'react-sortable-hoc';
 import Link from 'next/link';
+import notify from '../services/notify';
 
 class Home extends React.Component {
     constructor() {
@@ -31,12 +32,12 @@ class Home extends React.Component {
             colors: colors,
             search_notes: []
         }
-        this.addProject = this.addProject.bind(this); 
+        this.addProject = this.addProject.bind(this);
     }
     componentDidMount() {
         const { user } = getUser();
         const tabSelected = Router.router.query.tab;
-        this.setState({ user: user, projects: user.projects, activeTab: tabSelected }); 
+        this.setState({ user: user, projects: user.projects, activeTab: tabSelected });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -58,7 +59,12 @@ class Home extends React.Component {
             }).catch((e) => { alert(e) })
         }
         else {
-            alert("Enter project Title");
+            // alert("Enter project Title");
+
+            notify({
+                title: 'Error!',
+                body: 'Enter project Title'
+            })
         }
     }
 
@@ -189,9 +195,9 @@ class Home extends React.Component {
         }
         return (
             <>
-                    <Nav mode={user.theme === 'dark'} /> 
-                    <Navigation list={tabList} tabSelected={this.state.activeTab} />
-                
+                <Nav mode={user.theme === 'dark'} />
+                <Navigation list={tabList} tabSelected={this.state.activeTab} />
+
                 <TaskWrapper>
                     {this.state.activeTab !== 'Projects' ?
                         <Input
@@ -200,8 +206,8 @@ class Home extends React.Component {
                             type="search"
                             name="search"
                             onChange={this.onSearchChange}
-                            value={this.state.search} 
-                           />
+                            value={this.state.search}
+                        />
                         // null
                         : null}
                     {this.state.search == '' ? content :

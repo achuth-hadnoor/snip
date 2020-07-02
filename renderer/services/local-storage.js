@@ -1,4 +1,4 @@
-import uid from 'uid-promise'
+import uid from 'uid-promise' 
 
 export const getUser = () => {
     const user = JSON.parse(localStorage.getItem('snipsnip'))
@@ -34,7 +34,7 @@ export const updateUser = (user) => {
 
 export const setSnip = ({ title, project, snip, commands, tab = 'Snips' }) => {
     return new Promise( async (resolve, reject) => {
-        if (!title) {
+        if (!title) { 
             return reject(new TypeError('title is required'))
         }
         
@@ -113,8 +113,9 @@ export const getProject = (Pid) => {
 
 export const setproject = ({ hex ,title}) => {
     return new Promise( async(resolve, reject) => { 
-        if (!hex) {
-            return reject(TypeError('Select Project Color'))
+        if (!hex) { 
+            return reject(TypeError('Select Project Color'));
+            
         }
         
         const { user } = getUser();
@@ -145,3 +146,4 @@ export const removeProject = (id, deleteTasks) => {
         resolve(user);
     })
 }
+ 
