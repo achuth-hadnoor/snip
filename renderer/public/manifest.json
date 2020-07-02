@@ -1,6 +1,6 @@
 {
-  "name": "Snipnote",
-  "short_name": "Snipnote",
+  "name": "commandly",
+  "short_name": "commandly",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -14,7 +14,7 @@
     }
   ],
   "background_color": "#000000",
-  "description": "A Simple Note taking app with tasks and todo's",
+  "description": "A simgle line snippet manager on menumar",
   "display": "standalone",
   "start_url": "/",
   "theme_color": "#000"

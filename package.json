@@ -1,5 +1,5 @@
 {
-  "name": "snip",
+  "name": "commandly",
   "version": "1.0.0",
   "description": "A simple single line snippets manager",
   "main": "main/index.js",
@@ -12,30 +12,6 @@
     "dist": "npm run build && build --dir",
     "prod": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
-  },
-  "build": {
-    "appId": "snip",
-    "files": [
-      "**/*",
-      "!renderer",
-      "renderer/out"
-    ],
-    "win": {
-      "target": [
-        "squirrel"
-      ],
-      "icon": "main/static/icon.ico"
-    },
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "icon": "main/static/icon.icns"
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ]
-    }
   },
   "dependencies": {
     "app-root-path": "^2.1.0",
@@ -73,6 +49,52 @@
     "prettier": "^1.16.4",
     "react": "^16.8.3",
     "react-dom": "^16.8.3"
+  },
+  "build": {
+    "asar": true,
+    "appId": "com.commandly.app",
+    "compression": "normal",
+    "productName": "Commandly",
+    "files": [
+      "**/*",
+      "!renderer",
+      "renderer/out",
+      "main",
+      "main/icons"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "main/static/icon.ico"
+    },
+    "mac": {
+      "icon": "main/static/icon.icns",
+      "category": "public.app-category.developer-tools",
+      "target": "dmg"
+    },
+    "dmg": {
+      "icon": "main/static/icon.icns",
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "icon": "main/static/logo.png",
+      "target": [
+        "snap",
+        "AppImage"
+      ],
+      "description": "Commandly",
+      "category": "developer tools"
+    }
   },
   "babel": {
     "env": {
