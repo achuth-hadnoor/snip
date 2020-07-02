@@ -40,6 +40,7 @@
   "dependencies": {
     "app-root-path": "^2.1.0",
     "array-move": "^2.2.2",
+    "auto-launch": "^5.0.5",
     "axios": "^0.18.1",
     "babel-plugin-inline-dotenv": "^1.2.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
