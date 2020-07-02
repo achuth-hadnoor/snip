@@ -53,7 +53,9 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
+if(app.dock){
+  app.dock.hide()
+}
 function createWindow() {
 
   // App config app.config = await getConfig()
@@ -61,7 +63,8 @@ function createWindow() {
   const { screen } = electron
 
   const icon = nativeImage.createFromDataURL(base64Icon)
-  tray = new Tray(icon)
+  //join(__dirname, 'main/static/icon.png')
+  tray = new Tray(join(__dirname,'static/icons.png'))
   tray.setToolTip('Commandly');
   TrayWindow = new BrowserWindow({
     width: WINDOW_WIDTH,
@@ -71,16 +74,14 @@ function createWindow() {
     maxWidth: 320,
     maxHeight: 500,
     show: false,
-    alwaysOnTop: true,
     frame: false,
-    titleBarStyle: 'hiddenInset',
+    fullscreenable:false, 
     useContentSize: false,
-    resizable: true,
+    alwaysOnTop: true,
+    resizable: false,
     skipTaskbar: true,
-    icon:
-      platform() === 'win32'
-        ? join(__dirname, 'main/static/icon.ico')
-        : join(__dirname, 'main/static/icon.icns'),
+    transparent:true,
+    //icon:join(__dirname, 'main/static/icon.png'),
     webPreferences: {
       nodeIntegration: true,
     }
@@ -117,7 +118,7 @@ function createWindow() {
     }
 
   });
-  TrayWindow.webContents.openDevTools()
+  //TrayWindow.webContents.openDevTools()
   TrayWindow.setSkipTaskbar(true);
 
   const devPath = 'http://localhost:8000/'
