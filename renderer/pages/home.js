@@ -56,7 +56,12 @@ class Home extends React.Component {
                     hex: ''
                 }
                 this.setState({ projects: projects, user: user, project: _project })
-            }).catch((e) => { alert(e) })
+            }).catch((e) => {
+                notify({
+                    title: 'Error!',
+                    body: e
+                })
+            })
         }
         else {
             // alert("Enter project Title");
@@ -74,7 +79,6 @@ class Home extends React.Component {
             removeProject(id, l).then((user) => {
                 this.setState({ projects: user.projects })
             })
-
             const projects = this.state.projects.filter((p) => p.id !== id);
             this.setState({ projetcs: projects })
         }
@@ -152,7 +156,7 @@ class Home extends React.Component {
         switch (activeTab) {
             case 'Snips':
                 content = tasks.length === 0 ?
-                    <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>Yass!! All Caught up .🙌</div>
+                    <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>Don't type long commands 😒</div>
                     :
                     <SortableComponent title="Snips" notes={tasks} onMove={this.onMove} onSortEnd={this.onSortEnd} onDone={(i) => {
                         getsnip(i).then(({ id, title, note, project, commands, completed }) => {
@@ -166,7 +170,8 @@ class Home extends React.Component {
                 break;
             case 'Projects':
                 content = (
-                    <>
+                    <>  
+                   
                         <Input title="Project Title" placeholder="Enter Title here" onChange={this.onchange} value={this.state.project.title} />
                         <ColorPick colors={this.state.colors} onPick={(color) => {
                             // alert(color.hex)

@@ -5,7 +5,10 @@ import Nav from '../components/nav'
 import { exportUser, importUser, clearHistory } from '../services/settings'
 import Icon from 'react-icons-kit'
 import { upload, download, alertTriangle,user,globe,envelope,mail,send } from 'react-icons-kit/feather' 
+import {socialWindows} from 'react-icons-kit/ionicons'
 import { shell } from 'electron'
+import { command } from 'react-icons-kit/feather'
+import { arrowRight } from 'react-icons-kit/feather'
 
 
 export default () => {
@@ -21,6 +24,8 @@ export default () => {
                 <div className="item" onClick={()=>{shell.openExternal('https://twitter.com/achuth_hadnoor')}}><Icon icon={user} /> <span>Achuth Hadnoor</span></div>
                 <div className="item" onClick={()=>{shell.openExternal('https://commandly.achuth-hadnoor.vercel.app')}}><Icon icon={globe} /> <span>website</span></div>
                 <div className="item" onClick={()=>{shell.openExternal('mailto:achuth.hadnoor123@gmail.com')}}><Icon icon={send} /><span>Send Feedback</span> </div>
+                <span style={{padding:'10px'}}>Shortcut</span> 
+                <div className="item" style={{justifyContent:'center'}} ><Icon icon={socialWindows} /> or <Icon icon={command}/> + ALT + <Icon icon={arrowRight}/> </div> 
             </Box>
 
         </>

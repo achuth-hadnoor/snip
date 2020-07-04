@@ -67,9 +67,15 @@ export const importUser = () => {
 }
 
 export const clearHistory = () => {
-  const user = {
-    tasks: []
-  }
-
-  updateUser(user)
+  const oldUser = getUser();
+  const theme = oldUser.user.theme;
+  localStorage.clear();
+  let {user} = getUser();
+  user.theme = theme;
+  updateUser(user);
+  
+  notify({
+    title:"Commandly",
+    body:"History cleared "
+  })
 }

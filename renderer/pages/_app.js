@@ -6,8 +6,7 @@ class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props;
         return (
-            <Provider>
-                <Movable />
+            <Provider> 
                 <Component {...pageProps} />
             </Provider>
         );
@@ -15,8 +14,4 @@ class MyApp extends App {
 }
 
 export default MyApp;
-
-const Movable = styled.div`
-    height:5px; 
-    cursor:move; 
-`;
+ 

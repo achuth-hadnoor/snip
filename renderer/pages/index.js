@@ -40,8 +40,9 @@ class Home extends React.Component {
     render() {
         return (
             <Page>
-                <div style={{display:"flex",alignItems:'center',justifyContent:'center',height:'100%'}}>
-                <Link href="/home?tab=Snips"><a>Commandly</a></Link>
+                <div style={{display:"flex", flexDirection:'column' , alignItems:'center',justifyContent:'center',height:'100%'}}>
+                    <h2>Commandly</h2>
+                <Link href="/home?tab=Snips"><GetStarted>Get Started</GetStarted></Link>
                 </div>
             </Page>
         )
@@ -54,6 +55,7 @@ const Wrapper = styled.div`
     align-items:center;
     flex-direction:column;
     font-family:monospace;
+    transition:all .3s ease-in-out;
 `
 const Wrap = styled.div`
     display:flex;
@@ -64,5 +66,16 @@ const Wrap = styled.div`
     font-family:monospace;
     background:${props => props.theme.background.primary};
     height:100%;
-`
+    transition:all .3s ease-in-out;
+`;
+const GetStarted = styled.a`
+    margin:10px;
+    padding:5px 15px;
+    background:${props => props.theme.background.ternary};
+    color:${props => props.theme.color.primary};
+    border-radius:5px;
+    cursor:pointer;
+    transition:all .3s ease-in-out;
+`;
+
 export default withRouter(Home);

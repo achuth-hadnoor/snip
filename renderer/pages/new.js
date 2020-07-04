@@ -86,7 +86,7 @@ class New extends React.Component {
                         // alert(e)
                         notify({
                             title: 'Error!',
-                            body: e
+                            body: "Enter Title"
                         })
                     });
                 }}><Icon icon={check} /> Done </Continuee>

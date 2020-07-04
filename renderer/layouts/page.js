@@ -25,7 +25,7 @@ class Page extends Component {
             theme: themes.dark,
             toggleTheme: this.toggleTheme,
         }
-        this.handleKeypress = this.handleKeypress.bind(this)
+        // this.handleKeypress = this.handleKeypress.bind(this)
     }
     toggleTheme = () => { 
         this.setState(state => ({
@@ -36,12 +36,12 @@ class Page extends Component {
         }));
     };
     componentDidMount() {
-        document.addEventListener('keydown', this.handleKeypress, true);
+        // document.addEventListener('keydown', this.handleKeypress, true);
         Router.onRouteChangeError = stopProgress
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeypress, true);
+        // document.removeEventListener('keydown', this.handleKeypress, true);
         Router.onRouteChangeError = stopProgress
     }
 

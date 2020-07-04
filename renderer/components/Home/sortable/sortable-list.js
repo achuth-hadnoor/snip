@@ -20,7 +20,7 @@ const SortableList = SortableContainer(
                 />
             );
         })
-        : <div>Nothing to search</div>
+        : <div style={{ alignItems: 'center', justifyContent: 'center', flex: 1, display: 'flex', maxWidth: '400px' }}>🔍Bummer!! nothing found</div>
         return <div>
             {taskz}
         </div>;

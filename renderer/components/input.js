@@ -19,6 +19,7 @@ const Wrapper = styled.div`
     background:${props => props.theme.background.secondary};
     border-radius:5px; 
     margin:5px;
+    transition:all .3s ease-in-out;
     i{
         padding:5px;
     }
@@ -42,4 +43,5 @@ const InputWrapper = styled.div`
         font-size:14px; 
         padding:5px 10px ;
     } 
+    transition:all .3s ease-in-out;
 `

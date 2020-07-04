@@ -189,8 +189,8 @@ export const ToggleThemeButton = ({text}) => (
                         updateUser(user)
                     setThemed(theme);
                 }}><Icon icon ={ themed === themes.dark
-                    ? moon
-                    : sun } /><span>{text}</span></button>
+                    ? sun
+                    : moon } /><span>{text}</span></button>
             )
         }
     </ThemeContext.Consumer>)

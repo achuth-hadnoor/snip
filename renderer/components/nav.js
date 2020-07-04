@@ -57,6 +57,7 @@ const NavWrapper = styled.nav`
     max-width:400px;
     align-items:center;
     background:${props => props.theme.background.primary};
+    transition:all .3s ease-in-out;
     i{
         padding:10px;
     }
@@ -73,4 +74,5 @@ const Title = styled.div`
     font-family:monospace;
     color:${props => props.theme.color.primary}; 
     user-select:none;
+    transition:all .3s ease-in-out;
 `;
