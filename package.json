@@ -8,8 +8,8 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "build": "next build renderer && next export renderer && npm run build && build --dir",
-    "dist": "npm run build && build --dir",
+    "nbuild":"next build renderer && next export renderer",
+    "build": "npm run nbuild && build --dir", 
     "prod": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
   },
