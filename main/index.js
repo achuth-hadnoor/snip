@@ -119,7 +119,7 @@ function createWindow() {
     }
 
   });
-  TrayWindow.webContents.openDevTools()
+  //TrayWindow.webContents.openDevTools()
   TrayWindow.setSkipTaskbar(true);
 
   const devPath = 'http://localhost:8000/'
