@@ -148,6 +148,11 @@ function createWindow() {
       electron.shell.openExternal(arg);
     });
   });
+  var contextMenu = Menu.buildFromTemplate([{
+    label:"quit",
+    selector:"terminate:"
+  }])
+  tray.setContextMenu(contextMenu)
 }
 
 function toggleWindow() {

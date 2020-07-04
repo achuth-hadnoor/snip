@@ -1,6 +1,6 @@
 {
   "name": "commandly",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A simple single line snippets manager",
   "main": "main/index.js",
   "repository": "https://github.com/achuth-hadnoor/snip.git",
