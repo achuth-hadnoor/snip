@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "build": "next build renderer && next export renderer",
+    "build": "next build renderer && next export renderer && npm run build && build --dir",
     "dist": "npm run build && build --dir",
     "prod": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
@@ -60,7 +60,8 @@
       "!renderer",
       "renderer/out",
       "main",
-      "main/icons"
+      "main/icons",
+      "main/static"
     ],
     "win": {
       "target": "nsis",
@@ -73,6 +74,7 @@
     },
     "dmg": {
       "icon": "main/static/icon.icns",
+      "background": "main/static/icon.png",
       "contents": [
         {
           "x": 110,

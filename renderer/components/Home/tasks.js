@@ -5,6 +5,7 @@ import Icon from 'react-icons-kit';
 import { chevronDown } from 'react-icons-kit/feather';
 import { copy } from 'react-icons-kit/feather';
 import { clipboard } from 'electron';
+import notify from '../../services/notify';
 
 export default ({ note, onDone, project, commands }) => {
     const [open, setopen] = React.useState(false)
@@ -37,7 +38,13 @@ export default ({ note, onDone, project, commands }) => {
                             <li style={{ padding: '10px 5px', fontSize: '12px', display: 'flex' }}
                                 key={`item` + i}
                                 index={i}
-                                onClick={() => { clipboard.writeText(command.value, 'selection') }}>
+                                onClick={() => { 
+                                    notify({
+                                        title:"Commandly",
+                                        body:"Copied to clipboard"
+                                    })
+                                    clipboard.writeText(command.value, 'selection');
+                                     }}>
                                 <span style={{ flex: 1 }}> {command.value}</span>
                                 <Icon icon={copy} className="copy" />
                             </li>))
