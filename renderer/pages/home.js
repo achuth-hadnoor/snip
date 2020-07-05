@@ -207,7 +207,7 @@ class Home extends React.Component {
                     {this.state.activeTab !== 'Projects' ?
                         <Input
                             search="true"
-                            placeholder="Search for notes"
+                            placeholder="Search for commands and projects"
                             type="search"
                             name="search"
                             onChange={this.onSearchChange}
